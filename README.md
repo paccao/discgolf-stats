@@ -1,9 +1,5 @@
 # Discgolf stats
 
-## Data model
-
-![schema](./Datamodel-discgolf-stats.excalidraw.svg)
-
 ## Dependencies
 
 Download the dependencies specified in .tool-versions
@@ -37,3 +33,7 @@ pnpm astro                                      # Run CLI commands like astro ad
 pnpm prisma migrate dev --name <e.g. semver>    # Create a db migration
 pnpm prisma studio                              # Browse your local prisma database
 ```
+
+## Data model
+
+![schema](./Datamodel-discgolf-stats.excalidraw.svg)
