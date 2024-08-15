@@ -6,3 +6,51 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model CourseResult {
+  id Int @id @default(autoincrement())
+  date DateTime
+  players Player[]
+  scoreCards ScoreCard[]
+}
+
+model Course {
+  id Int @id @default(autoincrement())
+  name String @unique
+  description String
+  layout String
+  baskets Basket[]
+}
+
+model Basket {
+  id Int @id @default(autoincrement())
+  courseId Int
+  par Int
+  length Float
+  order Int
+  course Course @relation(fields: [courseId], references: [id])
+}
+
+model Player {
+  id Int @id @default(autoincrement())
+  name String @unique
+  scoreCards ScoreCard[]
+  courseResults CourseResult[]
+}
+
+model Score {
+  id Int @id @default(autoincrement())
+  scoreCardId Int
+  /// The number of throws
+  count Int
+  scoreCard ScoreCard @relation(fields: [scoreCardId], references: [id])
+}
+
+model ScoreCard {
+  id Int @id @default(autoincrement())
+  courseResultId Int
+  playerId Int
+  scores Score[]
+  courseResult CourseResult @relation(fields: [courseResultId], references: [id])
+  player Player @relation(fields: [playerId], references: [id])
+}
