@@ -7,50 +7,56 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model CourseResult {
-  id Int @id @default(autoincrement())
-  date DateTime
-  players Player[]
-  scoreCards ScoreCard[]
+model ScoreCard {
+  id            Int             @id @default(autoincrement())
+  date          DateTime
+  courseResults CourseResult[]
+  courseId      Int
+  course        Course          @relation(fields: [courseId], references: [id])
 }
 
 model Course {
-  id Int @id @default(autoincrement())
-  name String @unique
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
   description String
-  layout String
-  baskets Basket[]
+  location    String
+  layout      String
+  baskets     Basket[]
+  scoreCards  ScoreCard[]
 }
 
 model Basket {
-  id Int @id @default(autoincrement())
+  id       Int     @id @default(autoincrement())
+  par      Int
+  length   Float
+  /// The basket order is unique per Course
+  order    Int
+  scores   Score[]
   courseId Int
-  par Int
-  length Float
-  order Int
-  course Course @relation(fields: [courseId], references: [id])
-}
-
-model Player {
-  id Int @id @default(autoincrement())
-  name String @unique
-  scoreCards ScoreCard[]
-  courseResults CourseResult[]
+  course   Course  @relation(fields: [courseId], references: [id])
 }
 
 model Score {
-  id Int @id @default(autoincrement())
-  scoreCardId Int
+  id             Int          @id @default(autoincrement())
   /// The number of throws
-  count Int
-  scoreCard ScoreCard @relation(fields: [scoreCardId], references: [id])
+  count          Int
+  courseResultId Int
+  basketId       Int
+  courseResult   CourseResult @relation(fields: [courseResultId], references: [id])
+  basket         Basket       @relation(fields: [basketId], references: [id])
 }
 
-model ScoreCard {
-  id Int @id @default(autoincrement())
-  courseResultId Int
-  playerId Int
-  scores Score[]
-  courseResult CourseResult @relation(fields: [courseResultId], references: [id])
-  player Player @relation(fields: [playerId], references: [id])
+model CourseResult {
+  id          Int       @id @default(autoincrement())
+  scoreCardId Int
+  playerId    Int
+  scores      Score[]
+  scoreCard   ScoreCard @relation(fields: [scoreCardId], references: [id])
+  player      Player    @relation(fields: [playerId], references: [id])
+}
+
+model Player {
+  id            Int            @id @default(autoincrement())
+  name          String
+  courseResults CourseResult[]
 }
