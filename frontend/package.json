@@ -1,5 +1,5 @@
 {
-  "name": "discgolf-stats",
+  "name": "discgolf-stats-frontend",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -13,9 +13,7 @@
     "@astrojs/check": "^0.9.2",
     "@astrojs/svelte": "^5.7.0",
     "@astrojs/tailwind": "^5.1.0",
-    "@prisma/client": "5.18.0",
     "astro": "^4.13.3",
-    "prisma": "^5.18.0",
     "svelte": "^4.2.18",
     "tailwindcss": "^3.4.10",
     "typescript": "^5.5.4"
