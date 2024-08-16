@@ -26,6 +26,7 @@ All commands are run from the root of the project, from a terminal:
 
 ```shell
 pnpm install                                    # Installs dependencies
+pnpm install --filter <backend|frontend>        # Install specific deps
 pnpm dev                                        # Starts local dev server at localhost:4321
 pnpm build                                      # Build your production site to ./dist/
 pnpm preview                                    # Preview your build locally, before deploying
