@@ -1,16 +1,13 @@
-import buildServer from './server'
-import { PrismaClient } from '@prisma/client'
+import initServer from './server'
 
 const PORT = Number(process.env.PORT) ?? 8080
-
-const prisma = new PrismaClient()
-const server = buildServer()
+const app = initServer()
 
 async function main() {
   try {
-    await server.listen({ port: PORT })
+    await app.listen({ port: PORT, host: '0.0.0.0' })
 
-    console.log(`Server ready at http://${server}:${PORT}`)
+    console.log(`Server ready at http://localhost:${PORT}`)
   } catch (e) {
     console.error(e)
     process.exit(1)
@@ -18,10 +15,7 @@ async function main() {
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
+  .catch(console.error)
+  .finally(async () => {
+    await app.prisma.$disconnect()
   })

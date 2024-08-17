@@ -5,15 +5,19 @@ import {
   ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 
+import prismaPlugin from './utils/prismaPlugin'
+
 import courseRoutes from './modules/course/routes'
 
 export const server = Fastify({
   logger: { level: 'info' },
 }).withTypeProvider<ZodTypeProvider>()
 
-function buildServer() {
+function initServer() {
   server.setValidatorCompiler(validatorCompiler)
   server.setSerializerCompiler(serializerCompiler)
+
+  server.register(prismaPlugin)
 
   // register zod schemas
   //   for (const schema of [...]) {}
@@ -30,4 +34,4 @@ function buildServer() {
   return server
 }
 
-export default buildServer
+export default initServer
