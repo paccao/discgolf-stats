@@ -32,6 +32,7 @@ pnpm astro                                      # Run CLI commands like astro ad
 pnpm prisma migrate dev --name <e.g. semver>    # Create a db migration
 pnpm prisma db seed                             # Seed the database with data from prisma/seed.ts
 pnpm prisma studio                              # Browse your local prisma database
+pnpm prisma db push                             # Push writes to your database (changes the structure) but not to the migration
 ```
 
 ## Data model
