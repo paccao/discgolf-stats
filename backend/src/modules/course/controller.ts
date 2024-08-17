@@ -1,4 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
+
 import { findCourses, findCourseById } from './service'
 import { GetCourseInput } from './schema'
 
@@ -8,7 +10,7 @@ export async function listCoursesHandler() {
 
 export async function getCourseHandler(
   request: FastifyRequest<{
-    Params: GetCourseInput
+    Params: z.infer<typeof GetCourseInput>
   }>,
   reply: FastifyReply,
 ) {

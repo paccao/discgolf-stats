@@ -1,6 +1,8 @@
 import { FastifyInstance } from 'fastify'
+
 import { getCourseHandler, listCoursesHandler } from './controller'
 import { CourseSchema } from '../../../prisma/generated/zod/index'
+import { GetCourseInput } from './schema'
 
 async function CourseRoutes(server: FastifyInstance) {
   server.get(
@@ -19,6 +21,7 @@ async function CourseRoutes(server: FastifyInstance) {
     '/:id',
     {
       schema: {
+        params: GetCourseInput,
         response: {
           200: CourseSchema,
         },
