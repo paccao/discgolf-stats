@@ -6,6 +6,9 @@
     "start": "fastify start -l info index.ts",
     "dev": "node --import=tsx --watch src/index.ts"
   },
+  "prisma": {
+    "seed": "node --import=tsx prisma/seed.ts"
+  },
   "dependencies": {
     "@fastify/autoload": "^5.0.0",
     "@fastify/sensible": "^5.0.0",

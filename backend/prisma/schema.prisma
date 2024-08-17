@@ -20,6 +20,7 @@ model Course {
   name        String   @unique
   description String
   location    String
+  /// There are usually multiple layouts at a single course location
   layout      String
   baskets     Basket[]
   scoreCards  ScoreCard[]

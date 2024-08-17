@@ -22,8 +22,6 @@ You can find all asdf plugins [here](https://github.com/asdf-vm/asdf-plugins)
 
 ## 🧞 Commands
 
-All commands are run from the root of the project, from a terminal:
-
 ```shell
 pnpm install                                    # Installs dependencies
 pnpm install --filter <backend|frontend>        # Install specific deps
@@ -32,6 +30,7 @@ pnpm build                                      # Build your production site to 
 pnpm preview                                    # Preview your build locally, before deploying
 pnpm astro                                      # Run CLI commands like astro add, astro check
 pnpm prisma migrate dev --name <e.g. semver>    # Create a db migration
+pnpm prisma db seed                             # Seed the database with data from prisma/seed.ts
 pnpm prisma studio                              # Browse your local prisma database
 ```
 
