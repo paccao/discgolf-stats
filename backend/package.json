@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "start": "fastify start -l info index.ts",
-    "dev": "node --import=tsx --watch src/index.ts"
+    "start": "fastify start -l info app.ts",
+    "dev": "node --import=tsx --watch src/app.ts"
   },
   "prisma": {
     "seed": "node --import=tsx prisma/seed.ts"
