@@ -1,4 +1,7 @@
 import { z } from 'zod'
-import { CourseSchema } from '../../../prisma/generated/zod'
 
-export const GetCourseInput = CourseSchema.pick({ id: true })
+const idParam = z.coerce.number().min(1).int()
+
+export const GetCourseInput = z.object({
+    id: idParam
+})
