@@ -20,7 +20,6 @@
     "fastify-cli": "^6.3.0",
     "fastify-plugin": "^4.0.0",
     "fastify-type-provider-zod": "^2.0.0",
-    "fastify-zod-openapi": "^1.2.1",
     "prisma": "^5.18.0",
     "zod": "^3.23.8",
     "zod-prisma-types": "^3.1.8"

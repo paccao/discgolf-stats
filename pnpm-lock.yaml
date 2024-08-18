@@ -35,9 +35,6 @@ importers:
       fastify-type-provider-zod:
         specifier: ^2.0.0
         version: 2.0.0(fastify@4.28.1)(zod@3.23.8)
-      fastify-zod-openapi:
-        specifier: ^1.2.1
-        version: 1.2.1(fastify@4.28.1)(zod-openapi@2.19.0(zod@3.23.8))(zod@3.23.8)
       prisma:
         specifier: ^5.18.0
         version: 5.18.0
@@ -1407,14 +1404,6 @@ packages:
     peerDependencies:
       fastify: ^4.0.0
       zod: ^3.14.2
-
-  fastify-zod-openapi@1.2.1:
-    resolution: {integrity: sha512-O/oDpAv8iaNN109F9LwV77xaDd1xiSHRi1wCmma1iidizdZlxYaD+xyrCS3kWkP6hzugeqKplbqisu3CmOoX4A==}
-    engines: {node: '>=16.11'}
-    peerDependencies:
-      fastify: '4'
-      zod: ^3.21.4
-      zod-openapi: ^2.6.3
 
   fastify@4.28.1:
     resolution: {integrity: sha512-kFWUtpNr4i7t5vY2EJPCN2KgMVpuqfU4NjnJNCgiNB900oiDeYqaNDRcAfeBbOF5hGixixxcKnOU4KN9z6QncQ==}
@@ -2909,12 +2898,6 @@ packages:
     resolution: {integrity: sha512-b4JR1PFR10y1mKjhHY9LaGo6tmrgjit7hxVIeAmyMw3jegXR4dhYqLaQF5zMXZxY7tLpMyJeLjr1C4rLmkVe8g==}
     engines: {node: '>=12.20'}
 
-  zod-openapi@2.19.0:
-    resolution: {integrity: sha512-OUAAyBDPPwZ9u61i4k/LieXUzP2re8kFjqdNh2AvHjsyi/aRNz9leDAtMGcSoSzUT5xUeQoACJufBI6FzzZyxA==}
-    engines: {node: '>=16.11'}
-    peerDependencies:
-      zod: ^3.21.4
-
   zod-prisma-types@3.1.8:
     resolution: {integrity: sha512-5oe0ays3ur4u2GtuUqlhgCraKBcsuMaMI8o7VMV4YAnFeOuVid7K2zGvjI19V0ue9PeNF2ICyVREQVohaQm5dw==}
     hasBin: true
@@ -4312,13 +4295,6 @@ snapshots:
       fastify: 4.28.1
       zod: 3.23.8
       zod-to-json-schema: 3.23.2(zod@3.23.8)
-
-  fastify-zod-openapi@1.2.1(fastify@4.28.1)(zod-openapi@2.19.0(zod@3.23.8))(zod@3.23.8):
-    dependencies:
-      fastify: 4.28.1
-      fastify-plugin: 4.5.1
-      zod: 3.23.8
-      zod-openapi: 2.19.0(zod@3.23.8)
 
   fastify@4.28.1:
     dependencies:
@@ -6100,10 +6076,6 @@ snapshots:
       yargs-parser: 21.1.1
 
   yocto-queue@1.1.1: {}
-
-  zod-openapi@2.19.0(zod@3.23.8):
-    dependencies:
-      zod: 3.23.8
 
   zod-prisma-types@3.1.8:
     dependencies:

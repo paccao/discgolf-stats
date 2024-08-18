@@ -1,27 +1,21 @@
 import Fastify from 'fastify'
+import fastifySwagger from '@fastify/swagger'
+import fastifySwaggerUI from '@fastify/swagger-ui'
 import {
   serializerCompiler,
   validatorCompiler,
   ZodTypeProvider,
+  jsonSchemaTransform,
 } from 'fastify-type-provider-zod'
 
 import prismaPlugin from './utils/prismaPlugin'
-
 import courseRoutes from './modules/course/routes'
-import fastifySwagger from '@fastify/swagger'
-import fastifySwaggerUI from '@fastify/swagger-ui'
-import {
-  fastifyZodOpenApiPlugin,
-  fastifyZodOpenApiTransform,
-  fastifyZodOpenApiTransformObject,
-} from 'fastify-zod-openapi'
 
 export const server = Fastify({
   logger: { level: 'info' },
 }).withTypeProvider<ZodTypeProvider>()
 
 const OPENAPI_PREFIX = process.env.OPENAPI_PREFIX || 'api/docs'
-const openapiVersion = '3.0.3'
 
 function initServer() {
   server.setValidatorCompiler(validatorCompiler)
@@ -29,23 +23,19 @@ function initServer() {
 
   server.register(prismaPlugin)
 
-  // register openapi
-  server.register(fastifyZodOpenApiPlugin, { openapi: openapiVersion })
   server.register(fastifySwagger, {
     openapi: {
       info: {
-        title: 'Discgolf stats Openapi',
+        title: 'Discgolf stats Open API',
         description: 'API docs for discgolf stats',
         version: '0.0.1',
       },
       tags: [
-        { name: 'course', description: 'Course related end-points' },
-        { name: 'player', description: 'Player related end-points' },
+        { name: 'course', description: 'Course-related endpoints' },
+        { name: 'player', description: 'Player-related endpoints' },
       ],
-      openapi: openapiVersion,
     },
-    transform: fastifyZodOpenApiTransform,
-    transformObject: fastifyZodOpenApiTransformObject,
+    transform: jsonSchemaTransform,
   })
   server.register(fastifySwaggerUI, {
     routePrefix: `/${OPENAPI_PREFIX}`,

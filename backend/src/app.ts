@@ -6,10 +6,11 @@ const app = initServer()
 
 async function main() {
   try {
+    await app.ready()
     await app.listen({ port: PORT, host: '0.0.0.0' })
 
     console.log(`Server ready at http://localhost:${PORT}`)
-    console.log(`Openapi served at http://localhost:${PORT}/${OPENAPI_PREFIX}`)
+    console.log(`OpenAPI served at http://localhost:${PORT}/${OPENAPI_PREFIX}`)
   } catch (e) {
     console.error(e)
     process.exit(1)
