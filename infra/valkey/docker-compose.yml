@@ -1,0 +1,19 @@
+---
+services:
+  valkey:
+    image: valkey/valkey:7.2.6-alpine
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - VALKEY_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    volumes:
+      - ".data:/data"
+      # - ./valkey.conf:/etc/valkey/valkey.conf
+    # command: valkey-server /etc/valkey/valkey.conf
+    command: valkey-server
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+    ports:
+      - "6379:6379"
