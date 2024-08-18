@@ -1,4 +1,6 @@
 import Fastify from 'fastify'
+import fastifyCookie from '@fastify/cookie'
+import fastifySession from '@fastify/session'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUI from '@fastify/swagger-ui'
 import {
@@ -9,17 +11,31 @@ import {
 } from 'fastify-type-provider-zod'
 
 import { ENV } from './utils/env'
+import SessionStore from './utils/SessionStore'
 import courseRoutes from './modules/course/routes'
 
 export const server = Fastify({
   logger: { level: 'info' },
 }).withTypeProvider<ZodTypeProvider>()
 
-const OPENAPI_PREFIX = process.env.OPENAPI_PREFIX || 'api/docs'
+const ONE_DAY_MS = 8.64e7
 
 function initServer() {
   server.setValidatorCompiler(validatorCompiler)
   server.setSerializerCompiler(serializerCompiler)
+
+  server.register(fastifyCookie)
+  server.register(fastifySession, {
+    cookieName: 'sessionId',
+    secret: ENV.SESSION_SECRET,
+    cookie: {
+      maxAge: ONE_DAY_MS,
+      secure: 'auto',
+      httpOnly: true,
+      sameSite: 'lax',
+    },
+    store: new SessionStore(),
+  })
 
   server.register(fastifySwagger, {
     openapi: {

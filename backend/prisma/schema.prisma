@@ -12,16 +12,16 @@ datasource db {
 }
 
 model ScoreCard {
-  id            Int             @id @default(autoincrement())
+  id            Int            @id @default(autoincrement())
   date          DateTime
   courseResults CourseResult[]
   courseId      Int
-  course        Course          @relation(fields: [courseId], references: [id])
+  course        Course         @relation(fields: [courseId], references: [id])
 }
 
 model Course {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
+  id          Int         @id @default(autoincrement())
+  name        String      @unique
   description String
   location    String
   /// There are usually multiple layouts at a single course location
@@ -60,8 +60,26 @@ model CourseResult {
   player      Player    @relation(fields: [playerId], references: [id])
 }
 
+/// Profile information about the player
 model Player {
   id            Int            @id @default(autoincrement())
   name          String
   courseResults CourseResult[]
+  userId        Int            @unique
+  user          User           @relation(fields: [userId], references: [id])
+}
+
+/// Authentication related user data
+model User {
+  id        Int       @id @default(autoincrement())
+  sessionId String
+  sessions  Session[]
+  playerId  Int       @unique
+  player    Player?
+}
+
+model Session {
+  sessionId String @id @unique
+  userId    Int
+  user      User   @relation(fields: [userId], references: [id])
 }
