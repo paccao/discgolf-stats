@@ -1,6 +1,7 @@
 import initServer from './server'
 
 const PORT = Number(process.env.PORT) ?? 8080
+const OPENAPI_PREFIX = process.env.OPENAPI_PREFIX || 'api/docs'
 const app = initServer()
 
 async function main() {
@@ -8,6 +9,7 @@ async function main() {
     await app.listen({ port: PORT, host: '0.0.0.0' })
 
     console.log(`Server ready at http://localhost:${PORT}`)
+    console.log(`Openapi served at http://localhost:${PORT}/${OPENAPI_PREFIX}`)
   } catch (e) {
     console.error(e)
     process.exit(1)
