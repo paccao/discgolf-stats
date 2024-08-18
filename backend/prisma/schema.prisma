@@ -71,15 +71,15 @@ model Player {
 
 /// Authentication related user data
 model User {
-  id        Int       @id @default(autoincrement())
-  sessionId String
-  sessions  Session[]
-  playerId  Int       @unique
-  player    Player?
+  id       Int       @id @default(autoincrement())
+  playerId Int       @unique
+  player   Player?
+  sessions Session[]
 }
 
 model Session {
-  sessionId String @id @unique
+  id        String   @id
   userId    Int
-  user      User   @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

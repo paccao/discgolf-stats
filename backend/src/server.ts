@@ -1,6 +1,5 @@
-import Fastify from 'fastify'
+import Fastify, { type FastifyInstance } from 'fastify'
 import fastifyCookie from '@fastify/cookie'
-import fastifySession from '@fastify/session'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUI from '@fastify/swagger-ui'
 import {
@@ -11,32 +10,21 @@ import {
 } from 'fastify-type-provider-zod'
 
 import { ENV } from './utils/env'
-import SessionStore from './utils/SessionStore'
+import { authPlugin } from './utils/auth'
 import courseRoutes from './modules/course/routes'
 
 export const server = Fastify({
   logger: { level: 'info' },
 }).withTypeProvider<ZodTypeProvider>()
 
-const ONE_DAY_MS = 8.64e7
-
 function initServer() {
   server.setValidatorCompiler(validatorCompiler)
   server.setSerializerCompiler(serializerCompiler)
 
-  server.register(fastifyCookie)
-  server.register(fastifySession, {
-    cookieName: 'sessionId',
-    secret: ENV.SESSION_SECRET,
-    cookie: {
-      maxAge: ONE_DAY_MS,
-      secure: 'auto',
-      httpOnly: true,
-      sameSite: 'lax',
-    },
-    store: new SessionStore(),
-  })
+  // NOTE: Maybe we can remove the fastifyCookie plugin since Lucia already handles this
+  // server.register(fastifyCookie)
 
+  // TODO: Only include Swagger in development
   server.register(fastifySwagger, {
     openapi: {
       info: {
@@ -51,18 +39,33 @@ function initServer() {
     },
     transform: jsonSchemaTransform,
   })
+
   server.register(fastifySwaggerUI, {
     routePrefix: `/${ENV.OPENAPI_PREFIX}`,
   })
 
-  // register routes
-  server.register(courseRoutes, { prefix: 'api/courses' })
+  server.register(publicContext)
+  server.register(authenticatedContext)
 
+  return server
+}
+
+/**
+ * This context wraps all logic that should be public.
+ */
+async function publicContext(server: FastifyInstance) {
   server.get('/healthcheck', async function () {
     return { status: 'OK' }
   })
+}
 
-  return server
+/**
+ * This context wraps all logic that requires authentication.
+ */
+async function authenticatedContext(server: FastifyInstance) {
+  server.register(authPlugin)
+
+  server.register(courseRoutes, { prefix: 'api/courses' })
 }
 
 export default initServer

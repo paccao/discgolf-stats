@@ -31,6 +31,7 @@ pnpm build                                      # Build your production site to 
 pnpm preview                                    # Preview your build locally, before deploying
 pnpm astro                                      # Run CLI commands like astro add, astro check
 pnpm prisma migrate dev --name <e.g. semver>    # Create a db migration
+pnpm prisma generate                            # Generate Prisma client, types and zod schema based on latest definitions in `schema.prisma`
 pnpm prisma db seed                             # Seed the database with data from prisma/seed.ts
 pnpm prisma studio                              # Browse your local prisma database
 pnpm prisma db push                             # Push writes to your database (changes the structure) but not to the migration
