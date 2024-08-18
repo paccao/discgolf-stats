@@ -8,6 +8,7 @@ import {
   jsonSchemaTransform,
 } from 'fastify-type-provider-zod'
 
+import { ENV } from './utils/env'
 import courseRoutes from './modules/course/routes'
 
 export const server = Fastify({
@@ -35,7 +36,7 @@ function initServer() {
     transform: jsonSchemaTransform,
   })
   server.register(fastifySwaggerUI, {
-    routePrefix: `/${OPENAPI_PREFIX}`,
+    routePrefix: `/${ENV.OPENAPI_PREFIX}`,
   })
 
   // register routes
