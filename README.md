@@ -5,6 +5,7 @@
 Download the dependencies specified in .tool-versions
 
 ### Optional
+
 Use the [asdf package manager](https://github.com/asdf-vm/asdf) and add the plugins specified in the tool-versions file:
 
 ```shell
@@ -38,3 +39,7 @@ pnpm prisma db push                             # Push writes to your database (
 ## Data model
 
 ![schema](./Datamodel-discgolf-stats.excalidraw.svg)
+
+## Session and auth flow
+
+![flow](./Session-and-Auth-discgolf-stats.excalidraw.svg)
