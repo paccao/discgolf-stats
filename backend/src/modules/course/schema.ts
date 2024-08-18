@@ -1,6 +1,5 @@
 import { z } from 'zod'
-
-const idParam = z.coerce.number().min(1).int()
+import { idParam } from '../../utils/schema'
 
 export const GetCourseInput = z.object({
     id: idParam

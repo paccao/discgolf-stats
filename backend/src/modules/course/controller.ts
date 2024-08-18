@@ -5,7 +5,9 @@ import { findCourses, findCourseById } from './service'
 import { GetCourseInput } from './schema'
 
 export async function listCoursesHandler() {
-  return await findCourses()
+  const courses = await findCourses()
+
+  return courses
 }
 
 export async function getCourseHandler(
@@ -14,5 +16,11 @@ export async function getCourseHandler(
   }>,
   reply: FastifyReply,
 ) {
-  return await findCourseById()
+  const course = await findCourseById(request.params.id)
+
+  if (course) {
+    return course
+  }
+  
+  reply.code(404)
 }

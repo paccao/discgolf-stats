@@ -1,7 +1,11 @@
+import prisma from '../../utils/prisma'
+
 export async function findCourses() {
-  console.log('findCourses()')
+  return prisma.course.findMany()
 }
 
-export async function findCourseById() {
-  console.log('findCourseById()')
+export function findCourseById(id: number) {
+  return prisma.course.findFirst({
+    where: { id },
+  })
 }
