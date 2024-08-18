@@ -8,7 +8,6 @@ import {
   jsonSchemaTransform,
 } from 'fastify-type-provider-zod'
 
-import prismaPlugin from './utils/prismaPlugin'
 import courseRoutes from './modules/course/routes'
 
 export const server = Fastify({
@@ -20,8 +19,6 @@ const OPENAPI_PREFIX = process.env.OPENAPI_PREFIX || 'api/docs'
 function initServer() {
   server.setValidatorCompiler(validatorCompiler)
   server.setSerializerCompiler(serializerCompiler)
-
-  server.register(prismaPlugin)
 
   server.register(fastifySwagger, {
     openapi: {

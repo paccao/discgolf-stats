@@ -1,4 +1,5 @@
 import initServer from './server'
+import prisma from './utils/prisma'
 
 const PORT = Number(process.env.PORT) ?? 8080
 const OPENAPI_PREFIX = process.env.OPENAPI_PREFIX || 'api/docs'
@@ -20,5 +21,5 @@ async function main() {
 main()
   .catch(console.error)
   .finally(async () => {
-    await app.prisma.$disconnect()
+    await prisma.$disconnect()
   })
