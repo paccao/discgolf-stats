@@ -1,5 +1,4 @@
 import Fastify, { type FastifyInstance } from 'fastify'
-import fastifyCookie from '@fastify/cookie'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUI from '@fastify/swagger-ui'
 import {
@@ -12,6 +11,7 @@ import {
 import { ENV } from './utils/env'
 import { authPlugin } from './utils/auth'
 import courseRoutes from './modules/course/routes'
+import { loginRoute, logoutRoute } from './modules/auth/routes'
 
 export const server = Fastify({
   logger: { level: 'info' },
@@ -35,6 +35,10 @@ function initServer() {
       tags: [
         { name: 'course', description: 'Course-related endpoints' },
         { name: 'player', description: 'Player-related endpoints' },
+        {
+          name: 'authentication',
+          description: 'Authentication-related endpoints',
+        },
       ],
     },
     transform: jsonSchemaTransform,
@@ -57,6 +61,7 @@ async function publicContext(server: FastifyInstance) {
   server.get('/healthcheck', async function () {
     return { status: 'OK' }
   })
+  server.register(loginRoute, { prefix: 'api/auth' })
 }
 
 /**
@@ -66,6 +71,7 @@ async function authenticatedContext(server: FastifyInstance) {
   server.register(authPlugin)
 
   server.register(courseRoutes, { prefix: 'api/courses' })
+  server.register(logoutRoute, { prefix: 'api/auth' })
 }
 
 export default initServer

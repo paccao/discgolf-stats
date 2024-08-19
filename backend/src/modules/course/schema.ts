@@ -1,6 +1,9 @@
 import { z } from 'zod'
+
 import { idParam } from '../../utils/schema'
 
-export const GetCourseInput = z.object({
-    id: idParam
+export const GetCourseInputSchema = z.object({
+  id: idParam,
 })
+
+export type GetCourseInput = z.infer<typeof GetCourseInputSchema>

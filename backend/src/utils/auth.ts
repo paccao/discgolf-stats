@@ -41,12 +41,9 @@ declare module 'lucia' {
 
 declare module 'fastify' {
   export interface FastifyRequest {
-    user?: User
+    user?: Omit<User, 'hashedPassword'>
   }
 }
-
-// TODO: after successful login, create a session for the given userId
-// const session = await lucia.createSession(userId, {})
 
 export const authPlugin: FastifyPluginAsync = fp(async (server, options) => {
   server.addHook('onRequest', async (request, reply) => {
@@ -54,7 +51,7 @@ export const authPlugin: FastifyPluginAsync = fp(async (server, options) => {
 
     if (!sessionId) {
       // TODO: fix redirect
-      reply.redirect('/auth/login', 401)
+      return reply.redirect('/auth/login', 401)
     }
 
     const { session, user } = await lucia.validateSession(sessionId)

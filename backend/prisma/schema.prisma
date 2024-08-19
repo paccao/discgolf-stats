@@ -71,10 +71,12 @@ model Player {
 
 /// Authentication related user data
 model User {
-  id       Int       @id @default(autoincrement())
-  playerId Int       @unique
-  player   Player?
-  sessions Session[]
+  id             Int       @id @default(autoincrement())
+  username       String    @unique
+  hashedPassword String
+  playerId       Int       @unique
+  player         Player?
+  sessions       Session[]
 }
 
 model Session {
