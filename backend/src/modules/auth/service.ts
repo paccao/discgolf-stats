@@ -30,3 +30,10 @@ export async function loginUser(username: string, password: string) {
   return lucia.createSessionCookie(session.id)
 }
 
+export function signUpUser(username: string, password: string) {}
+
+export function logoutUser(id: Session['id']) {
+  return prisma.session.findFirst({
+    where: { id },
+  })
+}
