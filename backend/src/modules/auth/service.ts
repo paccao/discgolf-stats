@@ -1,6 +1,5 @@
 import { hash, verify } from '@node-rs/argon2'
 
-import { Session } from '../../../prisma/generated/zod'
 import prisma from '../../utils/prisma'
 import { lucia } from '../../utils/auth'
 
@@ -17,7 +16,7 @@ export async function signInUser(username: string, password: string) {
     where: { username },
   })
   if (!existingUser) {
-    throw new Error('Invalid username or password')
+    return { error: 'Invalid username or password', status: 422 }
   }
 
   const isValidPassword = await verify(
@@ -26,46 +25,32 @@ export async function signInUser(username: string, password: string) {
     hashConfig,
   )
   if (!isValidPassword) {
-    throw new Error('Invalid username or password')
+    return { error: 'Invalid username or password', status: 422 }
   }
 
   // TODO: Check if a valid session exists before creating a new one
 
   const session = await lucia.createSession(existingUser.id, {})
-  console.log('session object: ', session)
-
-  return lucia.createSessionCookie(session.id)
+  return { sessionCookie: lucia.createSessionCookie(session.id) }
 }
 
 export async function signUpUser(username: string, password: string) {
   const existingUser = await prisma.user.findUnique({
     where: { username },
   })
-  console.log(existingUser)
   if (existingUser?.username == username) {
-    throw new Error('Username already taken')
+    return { error: 'Username already taken', status: 422 }
   }
 
-  const passwordHash = await hash(password, hashConfig)
+  const hashedPassword = await hash(password, hashConfig)
 
-  await prisma.user.create({
-    data: { username, hashedPassword: passwordHash },
+  const newUser = await prisma.user.create({
+    data: { username, hashedPassword },
+    select: { id: true },
   })
-
-  const newUser = await prisma.user.findUnique({
-    where: { username },
-  })
-  if (!newUser) {
-    await prisma.user.delete({
-      where: { username },
-    })
-    throw new Error('Unexpected error when creating the user')
-  }
 
   const session = await lucia.createSession(newUser.id, {})
-  console.log('session object: ', session)
-
-  return lucia.createSessionCookie(session.id)
+  return { sessionCookie: lucia.createSessionCookie(session.id) }
 }
 
 export async function signOutUser(sessionId: string) {

@@ -72,47 +72,4 @@ export const authPlugin: FastifyPluginAsync = fp(async (server, options) => {
       return reply.code(401).send()
     }
   })
-
-  // IDEA: Maybe use this for validation and route authorization checks
-  // for example, admin vs basic user permissions.
-  // server
-  //   .decorate(
-  //     'verifySession',
-  //     async (
-  //       request: FastifyRequest,
-  //       reply: FastifyReply,
-  //       done: HookHandlerDoneFunction,
-  //     ) => {
-  //       const sessionId = lucia.readSessionCookie(request.headers.cookie ?? '')
-
-  //       if (!sessionId) {
-  //         return reply.redirect('/auth/sign-in', 401)
-  //       }
-
-  //       const { session, user } = await lucia.validateSession(sessionId)
-  //       if (session && session.fresh) {
-  //         reply.header(
-  //           'Set-Cookie',
-  //           lucia.createSessionCookie(session.id).serialize(),
-  //         )
-
-  //         request.user = user
-  //         request.session = session
-  //       }
-
-  //       done() // pass an error if the authentication fails
-  //     },
-  //   )
-  //   .register(fastifyAuth)
-  //   .after(() => {
-  //     server.route({
-  //       method: 'POST',
-  //       url: '/auth',
-  //       preHandler: server.auth([server.verifySession]),
-  //       handler: (req, reply) => {
-  //         req.log.info('Auth route')
-  //         reply.send({ hello: 'world' })
-  //       },
-  //     })
-  //   })
 })

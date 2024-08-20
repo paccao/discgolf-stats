@@ -10,11 +10,18 @@ export async function signUpHandler(
 ) {
   const { username, password } = request.body
   try {
-    const sessionCookie = await signUpUser(username, password)
+    const { sessionCookie, error, status } = await signUpUser(
+      username,
+      password,
+    )
+    if (!sessionCookie) {
+      return reply.code(status).send(error)
+    }
+
     reply.header('Set-Cookie', sessionCookie.serialize())
   } catch (e: any) {
-    console.error(e, username)
-    reply.send(e?.message)
+    request.log.error(e, e?.message)
+    reply.code(500)
   }
 }
 
@@ -25,11 +32,18 @@ export async function signInHandler(
   const { username, password } = request.body
 
   try {
-    const sessionCookie = await signInUser(username, password)
+    const { sessionCookie, error, status } = await signInUser(
+      username,
+      password,
+    )
+    if (!sessionCookie) {
+      return reply.code(status).send(error)
+    }
+
     reply.header('Set-Cookie', sessionCookie.serialize())
   } catch (e: any) {
-    console.error(e, username)
-    reply.send(e?.message)
+    request.log.error(e, e?.message)
+    reply.code(500)
   }
 }
 
@@ -39,14 +53,14 @@ export async function signOutHandler(
 ) {
   const sessionId = lucia.readSessionCookie(request.headers.cookie ?? '')
   if (!sessionId) {
-    throw new Error('Client has no session')
+    return reply.code(401)
   }
 
   try {
     const sessionCookie = await signOutUser(sessionId)
     reply.header('Set-Cookie', sessionCookie.serialize())
   } catch (e: any) {
-    console.error(e)
-    reply.send(e?.message)
+    request.log.error(e, e?.message)
+    reply.code(500)
   }
 }

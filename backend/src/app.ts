@@ -15,13 +15,13 @@ async function main() {
       `OpenAPI served at http://localhost:${ENV.PORT}/${ENV.OPENAPI_PREFIX}`,
     )
   } catch (e) {
-    console.error(e)
+    app.log.error(e)
     process.exit(1)
   }
 }
 
 main()
-  .catch(console.error)
+  .catch(app.log.error)
   .finally(async () => {
     await prisma.$disconnect()
   })

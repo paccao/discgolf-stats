@@ -68,8 +68,6 @@ async function main() {
       },
     },
   })
-
-  console.log({ courseDalum, courseAle })
 }
 
 main()
