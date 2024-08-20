@@ -45,7 +45,7 @@ interface DatabaseUserAttributes {
 
 declare module 'fastify' {
   export interface FastifyRequest {
-    user?: Omit<User, 'hashedPassword'>
+    user?: Pick<User, 'id'>
   }
 }
 
@@ -54,18 +54,22 @@ export const authPlugin: FastifyPluginAsync = fp(async (server, options) => {
     const sessionId = lucia.readSessionCookie(request.headers.cookie ?? '')
 
     if (!sessionId) {
-      // TODO: fix redirect
-      return reply.redirect('/auth/signIn', 401)
+      // TODO: fix redirect in frontend
+      return reply.code(401).send()
     }
 
     const { session, user } = await lucia.validateSession(sessionId)
-    if (session && session.fresh) {
-      reply.header(
-        'Set-Cookie',
-        lucia.createSessionCookie(session.id).serialize(),
-      )
-
+    if (session) {
       request.user = user
+
+      if (session.fresh) {
+        reply.header(
+          'Set-Cookie',
+          lucia.createSessionCookie(session.id).serialize(),
+        )
+      }
+    } else {
+      return reply.code(401).send()
     }
   })
 
@@ -82,7 +86,7 @@ export const authPlugin: FastifyPluginAsync = fp(async (server, options) => {
   //       const sessionId = lucia.readSessionCookie(request.headers.cookie ?? '')
 
   //       if (!sessionId) {
-  //         return reply.redirect('/auth/signIn', 401)
+  //         return reply.redirect('/auth/sign-in', 401)
   //       }
 
   //       const { session, user } = await lucia.validateSession(sessionId)
