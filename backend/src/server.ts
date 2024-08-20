@@ -21,9 +21,6 @@ function initServer() {
   server.setValidatorCompiler(validatorCompiler)
   server.setSerializerCompiler(serializerCompiler)
 
-  // NOTE: Maybe we can remove the fastifyCookie plugin since Lucia already handles this
-  // server.register(fastifyCookie)
-
   // TODO: Only include Swagger in development
   server.register(fastifySwagger, {
     openapi: {

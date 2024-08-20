@@ -1,13 +1,7 @@
 import { Lucia } from 'lucia'
 import { PrismaAdapter } from '@lucia-auth/adapter-prisma'
-import {
-  FastifyPluginAsync,
-  FastifyReply,
-  FastifyRequest,
-  HookHandlerDoneFunction,
-} from 'fastify'
+import { FastifyPluginAsync } from 'fastify'
 import fp from 'fastify-plugin'
-import fastifyAuth from '@fastify/auth'
 
 import { User } from '../../prisma/generated/zod'
 import prisma from './prisma'
@@ -55,7 +49,7 @@ export const authPlugin: FastifyPluginAsync = fp(async (server, options) => {
 
     if (!sessionId) {
       // TODO: fix redirect in frontend
-      return reply.code(401).send()
+      return reply.code(401)
     }
 
     const { session, user } = await lucia.validateSession(sessionId)
@@ -69,7 +63,7 @@ export const authPlugin: FastifyPluginAsync = fp(async (server, options) => {
         )
       }
     } else {
-      return reply.code(401).send()
+      return reply.code(401)
     }
   })
 })
