@@ -1,21 +1,21 @@
 import { FastifyInstance } from 'fastify'
-import { loginHandler, logoutHandler, signUpHandler } from './controller'
+import { signInHandler, signOutHandler, signUpHandler } from './controller'
 import { AuthResponseSchema } from './schema'
-import { LoginInputSchema, SignUpInputSchema } from './schema'
+import { signInInputSchema, SignUpInputSchema } from './schema'
 
-export async function loginRoute(server: FastifyInstance) {
+export async function signInRoute(server: FastifyInstance) {
   server.post(
-    '/login',
+    '/signIn',
     {
       schema: {
-        body: LoginInputSchema,
+        body: signInInputSchema,
         response: {
           // IDEA: Maybe send
           200: AuthResponseSchema,
         },
       },
     },
-    loginHandler,
+    signInHandler,
   )
 }
 
@@ -34,9 +34,9 @@ export async function signUpRoute(server: FastifyInstance) {
   )
 }
 
-export async function logoutRoute(server: FastifyInstance) {
+export async function signOutRoute(server: FastifyInstance) {
   server.post(
-    '/logout',
+    '/signOut',
     {
       schema: {
         response: {
@@ -44,6 +44,6 @@ export async function logoutRoute(server: FastifyInstance) {
         },
       },
     },
-    logoutHandler,
+    signOutHandler,
   )
 }

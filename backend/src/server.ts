@@ -11,7 +11,7 @@ import {
 import { ENV } from './utils/env'
 import { authPlugin } from './utils/auth'
 import courseRoutes from './modules/course/routes'
-import { loginRoute, logoutRoute, signUpRoute } from './modules/auth/routes'
+import { signInRoute, signOutRoute, signUpRoute } from './modules/auth/routes'
 
 export const server = Fastify({
   logger: { level: 'info' },
@@ -61,7 +61,7 @@ async function publicContext(server: FastifyInstance) {
   server.get('/healthcheck', async function () {
     return { status: 'OK' }
   })
-  server.register(loginRoute, { prefix: 'api/auth' })
+  server.register(signInRoute, { prefix: 'api/auth' })
   server.register(signUpRoute, { prefix: 'api/auth' })
 }
 
@@ -72,7 +72,7 @@ async function authenticatedContext(server: FastifyInstance) {
   server.register(authPlugin)
 
   server.register(courseRoutes, { prefix: 'api/courses' })
-  server.register(logoutRoute, { prefix: 'api/auth' })
+  server.register(signOutRoute, { prefix: 'api/auth' })
 }
 
 export default initServer

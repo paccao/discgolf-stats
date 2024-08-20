@@ -9,11 +9,11 @@ const usernameRegex = /^[0-9A-Za-z\._]{6,20}$/
 const username = z.string().min(6).max(20).regex(usernameRegex)
 const password = z.string().min(6).max(80)
 
-export const LoginInputSchema = z.object({
+export const signInInputSchema = z.object({
   username,
   password,
 })
-export type LoginInput = z.infer<typeof LoginInputSchema>
+export type signInInput = z.infer<typeof signInInputSchema>
 
 export const SignUpInputSchema = z.object({
   username,

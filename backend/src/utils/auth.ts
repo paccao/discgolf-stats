@@ -55,7 +55,7 @@ export const authPlugin: FastifyPluginAsync = fp(async (server, options) => {
 
     if (!sessionId) {
       // TODO: fix redirect
-      return reply.redirect('/auth/login', 401)
+      return reply.redirect('/auth/signIn', 401)
     }
 
     const { session, user } = await lucia.validateSession(sessionId)
@@ -82,7 +82,7 @@ export const authPlugin: FastifyPluginAsync = fp(async (server, options) => {
   //       const sessionId = lucia.readSessionCookie(request.headers.cookie ?? '')
 
   //       if (!sessionId) {
-  //         return reply.redirect('/auth/login', 401)
+  //         return reply.redirect('/auth/signIn', 401)
   //       }
 
   //       const { session, user } = await lucia.validateSession(sessionId)

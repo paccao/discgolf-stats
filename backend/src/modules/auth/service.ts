@@ -12,7 +12,7 @@ const hashConfig = {
   parallelism: 1,
 }
 
-export async function loginUser(username: string, password: string) {
+export async function signInUser(username: string, password: string) {
   const existingUser = await prisma.user.findUnique({
     where: { username },
   })
@@ -28,6 +28,8 @@ export async function loginUser(username: string, password: string) {
   if (!isValidPassword) {
     throw new Error('Invalid username or password')
   }
+
+  // TODO: Check if a valid session exists before creating a new one
 
   const session = await lucia.createSession(existingUser.id, {})
   console.log('session object: ', session)
@@ -66,7 +68,7 @@ export async function signUpUser(username: string, password: string) {
   return lucia.createSessionCookie(session.id)
 }
 
-export function logoutUser(id: Session['id']) {
+export function signOutUser(id: Session['id']) {
   return prisma.session.findFirst({
     where: { id },
   })

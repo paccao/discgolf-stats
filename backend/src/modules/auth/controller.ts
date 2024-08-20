@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { LoginInput, SignUpInput } from './schema'
-import { loginUser, signUpUser } from './service'
+import { signInInput, SignUpInput } from './schema'
+import { signInUser, signUpUser } from './service'
 
 export async function signUpHandler(
   request: FastifyRequest<{ Body: SignUpInput }>,
@@ -17,14 +17,14 @@ export async function signUpHandler(
   }
 }
 
-export async function loginHandler(
-  request: FastifyRequest<{ Body: LoginInput }>,
+export async function signInHandler(
+  request: FastifyRequest<{ Body: signInInput }>,
   reply: FastifyReply,
 ) {
   const { username, password } = request.body
 
   try {
-    const sessionCookie = await loginUser(username, password)
+    const sessionCookie = await signInUser(username, password)
     reply.header('Set-Cookie', sessionCookie.serialize())
   } catch (e: any) {
     console.error(e, username)
@@ -32,7 +32,7 @@ export async function loginHandler(
   }
 }
 
-export async function logoutHandler(
+export async function signOutHandler(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {}
