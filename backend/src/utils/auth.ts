@@ -34,9 +34,13 @@ export const lucia = new Lucia(adapter, {
 declare module 'lucia' {
   interface Register {
     Lucia: typeof lucia
-    DatabaseUserAttributes: User
+    DatabaseUserAttributes: DatabaseUserAttributes
     UserId: User['id']
   }
+}
+
+interface DatabaseUserAttributes {
+  playerId: string
 }
 
 declare module 'fastify' {

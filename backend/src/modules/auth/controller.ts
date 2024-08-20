@@ -1,7 +1,5 @@
-import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { lucia } from '../../utils/auth'
 import { LoginInput, SignUpInput } from './schema'
 import { loginUser, signUpUser } from './service'
 
@@ -11,11 +9,11 @@ export async function signUpHandler(
 ) {
   const { username, password } = request.body
   try {
-    const user = await signUpUser(username, password)
-    // IDEA: Maybe also create a session for the user and log them in automatically?
-  } catch (e) {
-    // TODO: error handling
-    // handle error: username already taken
+    const sessionCookie = await signUpUser(username, password)
+    reply.header('Set-Cookie', sessionCookie.serialize())
+  } catch (e: any) {
+    console.error(e, username)
+    reply.send(e?.message)
   }
 }
 
@@ -28,7 +26,6 @@ export async function loginHandler(
   try {
     const sessionCookie = await loginUser(username, password)
     reply.header('Set-Cookie', sessionCookie.serialize())
-    console.log()
   } catch (e: any) {
     console.error(e, username)
     reply.send(e?.message)

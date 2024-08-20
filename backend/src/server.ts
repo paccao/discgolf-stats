@@ -11,7 +11,7 @@ import {
 import { ENV } from './utils/env'
 import { authPlugin } from './utils/auth'
 import courseRoutes from './modules/course/routes'
-import { loginRoute, logoutRoute } from './modules/auth/routes'
+import { loginRoute, logoutRoute, signUpRoute } from './modules/auth/routes'
 
 export const server = Fastify({
   logger: { level: 'info' },
@@ -62,6 +62,7 @@ async function publicContext(server: FastifyInstance) {
     return { status: 'OK' }
   })
   server.register(loginRoute, { prefix: 'api/auth' })
+  server.register(signUpRoute, { prefix: 'api/auth' })
 }
 
 /**

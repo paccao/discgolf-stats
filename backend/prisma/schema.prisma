@@ -74,7 +74,7 @@ model User {
   id             Int       @id @default(autoincrement())
   username       String    @unique
   hashedPassword String
-  playerId       Int       @unique
+  playerId       Int?      @unique
   player         Player?
   sessions       Session[]
 }
