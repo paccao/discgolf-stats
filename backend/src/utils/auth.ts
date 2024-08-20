@@ -25,7 +25,7 @@ export const lucia = new Lucia(adapter, {
   /** Expose additional user attributes later in the request handling */
   getUserAttributes: (attributes) => {
     return {
-      playerId: attributes.playerId,
+      userId: attributes.id,
     }
   },
 })
@@ -40,7 +40,7 @@ declare module 'lucia' {
 }
 
 interface DatabaseUserAttributes {
-  playerId: string
+  id: string
 }
 
 declare module 'fastify' {

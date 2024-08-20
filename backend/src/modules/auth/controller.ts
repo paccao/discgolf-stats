@@ -1,7 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { signInInput, SignUpInput } from './schema'
-import { signInUser, signUpUser } from './service'
+import { SignInInput, SignUpInput } from './schema'
+import { signInUser, signOutUser, signUpUser } from './service'
+import { lucia } from '../../utils/auth'
 
 export async function signUpHandler(
   request: FastifyRequest<{ Body: SignUpInput }>,
@@ -18,7 +19,7 @@ export async function signUpHandler(
 }
 
 export async function signInHandler(
-  request: FastifyRequest<{ Body: signInInput }>,
+  request: FastifyRequest<{ Body: SignInInput }>,
   reply: FastifyReply,
 ) {
   const { username, password } = request.body
@@ -35,4 +36,17 @@ export async function signInHandler(
 export async function signOutHandler(
   request: FastifyRequest,
   reply: FastifyReply,
-) {}
+) {
+  const sessionId = lucia.readSessionCookie(request.headers.cookie ?? '')
+  if (!sessionId) {
+    throw new Error('Client has no session')
+  }
+
+  try {
+    const sessionCookie = await signOutUser(sessionId)
+    reply.header('Set-Cookie', sessionCookie.serialize())
+  } catch (e: any) {
+    console.error(e)
+    reply.send(e?.message)
+  }
+}
