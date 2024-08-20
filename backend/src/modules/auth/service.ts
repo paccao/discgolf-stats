@@ -11,6 +11,25 @@ const hashConfig = {
   parallelism: 1,
 }
 
+export async function signUpUser(username: string, password: string) {
+  const existingUser = await prisma.user.findUnique({
+    where: { username },
+  })
+  if (existingUser?.username == username) {
+    return { error: 'Username already taken', status: 422 }
+  }
+
+  const hashedPassword = await hash(password, hashConfig)
+
+  const newUser = await prisma.user.create({
+    data: { username, hashedPassword },
+    select: { id: true },
+  })
+
+  const session = await lucia.createSession(newUser.id, {})
+  return { sessionCookie: lucia.createSessionCookie(session.id) }
+}
+
 export async function signInUser(username: string, password: string) {
   const existingUser = await prisma.user.findUnique({
     where: { username },
@@ -31,25 +50,6 @@ export async function signInUser(username: string, password: string) {
   // TODO: Check if a valid session exists before creating a new one
 
   const session = await lucia.createSession(existingUser.id, {})
-  return { sessionCookie: lucia.createSessionCookie(session.id) }
-}
-
-export async function signUpUser(username: string, password: string) {
-  const existingUser = await prisma.user.findUnique({
-    where: { username },
-  })
-  if (existingUser?.username == username) {
-    return { error: 'Username already taken', status: 422 }
-  }
-
-  const hashedPassword = await hash(password, hashConfig)
-
-  const newUser = await prisma.user.create({
-    data: { username, hashedPassword },
-    select: { id: true },
-  })
-
-  const session = await lucia.createSession(newUser.id, {})
   return { sessionCookie: lucia.createSessionCookie(session.id) }
 }
 

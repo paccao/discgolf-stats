@@ -35,8 +35,8 @@ function initServer() {
  */
 async function publicContext(server: FastifyInstance) {
   server.get('/healthcheck', async () => ({ status: 'OK' }))
-  server.register(signInRoute, { prefix: 'api/auth' })
   server.register(signUpRoute, { prefix: 'api/auth' })
+  server.register(signInRoute, { prefix: 'api/auth' })
 }
 
 /**
