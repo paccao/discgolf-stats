@@ -1,4 +1,4 @@
-import Fastify, { type FastifyInstance } from 'fastify'
+import Fastify, { FastifyServerOptions, type FastifyInstance } from 'fastify'
 import fp from 'fastify-plugin'
 import {
   serializerCompiler,
@@ -12,9 +12,15 @@ import { sessionPlugin, authenticationRequiredPlugin } from './utils/auth'
 import courseRoutes from './modules/course/routes'
 import { signInRoute, signOutRoute, signUpRoute } from './modules/auth/routes'
 
-const server = Fastify({
-  logger: { level: 'debug' },
-}).withTypeProvider<ZodTypeProvider>()
+const options: FastifyServerOptions = {
+  logger: { level: 'info' },
+}
+
+if (process.stdout.isTTY) {
+  options.logger = { level: 'debug', transport: { target: 'pino-pretty' } }
+}
+
+const server = Fastify(options).withTypeProvider<ZodTypeProvider>()
 
 function initServer() {
   server.setValidatorCompiler(validatorCompiler)

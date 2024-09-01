@@ -8,12 +8,16 @@ const app = initServer()
 async function main() {
   try {
     await app.ready()
-    await app.listen({ port: ENV.PORT, host: '0.0.0.0' })
+    await app.listen({
+      host: ENV.SERVER_HOST,
+      port: ENV.PORT,
+    })
 
-    console.log(`Server ready at http://localhost:${ENV.PORT}`)
-    console.log(
-      `OpenAPI served at http://localhost:${ENV.PORT}/${ENV.OPENAPI_PREFIX}`,
-    )
+    if (ENV.NODE_ENV === 'development') {
+      app.log.info(
+        `OpenAPI served at http://localhost:${ENV.PORT}/${ENV.OPENAPI_PREFIX}`,
+      )
+    }
   } catch (e) {
     app.log.error(e)
     process.exit(1)

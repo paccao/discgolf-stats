@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 const envSchema = z.object({
+  SERVER_HOST: z.enum(['0.0.0.0', 'localhost']),
   PORT: z.coerce.number().int().min(1).default(8080),
   DATABASE_URL: z.string().default('file:./dev.db'),
   NODE_ENV: z

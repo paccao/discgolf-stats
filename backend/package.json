@@ -25,12 +25,13 @@
     "zod-prisma-types": "^3.1.8"
   },
   "devDependencies": {
+    "@fastify/swagger": "^8.15.0",
+    "@fastify/swagger-ui": "^4.1.0",
     "@types/node": "^22.5.2",
+    "pino-pretty": "^11.2.2",
     "prettier": "^3.3.3",
     "tsx": "^4.19.0",
-    "typescript": "^5.5.4",
-    "@fastify/swagger": "^8.15.0",
-    "@fastify/swagger-ui": "^4.1.0"
+    "typescript": "^5.5.4"
   },
   "prettier": {
     "semi": false,
