@@ -16,8 +16,8 @@ const options: FastifyServerOptions = {
   logger: { level: 'info' },
 }
 
-if (process.stdout.isTTY) {
-  options.logger = { level: 'debug', transport: { target: 'pino-pretty' } }
+if (ENV.NODE_ENV === 'development' && process.stdout.isTTY) {
+  options.logger = { level: 'trace', transport: { target: 'pino-pretty' } }
 }
 
 const server = Fastify(options).withTypeProvider<ZodTypeProvider>()

@@ -70,11 +70,12 @@ export const sessionPlugin: FastifyPluginAsync = fp(async (server) => {
  */
 export const authenticationRequiredPlugin: FastifyPluginAsync = fp(
   async (server) => {
-    // TODO: Fix bug that freezes requests that have no session here
-    server.addHook('onRequest', async (request, reply) => {
+    server.addHook('onRequest', (request, reply, done) => {
       if (!request.user) {
-        return reply.code(401)
+        reply.code(401).send()
       }
+
+      done()
     })
   },
 )
