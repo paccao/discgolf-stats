@@ -8,6 +8,8 @@ export async function signUpHandler(
   request: FastifyRequest<{ Body: SignUpInput }>,
   reply: FastifyReply,
 ) {
+  if (request.user) return reply.code(400)
+
   const { username, password } = request.body
   try {
     const { sessionCookie, error, status } = await signUpUser(
@@ -29,6 +31,8 @@ export async function signInHandler(
   request: FastifyRequest<{ Body: SignInInput }>,
   reply: FastifyReply,
 ) {
+  if (request.user) return reply.code(400)
+
   const { username, password } = request.body
 
   try {

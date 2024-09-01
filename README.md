@@ -19,7 +19,7 @@ Install them by running:
 asdf install
 ```
 
-You can find all asdf plugins [here](https://github.com/asdf-vm/asdf-plugins)
+You can find all asdf plugins [here](https://github.com/asdf-vm/asdf-plugins?tab=readme-ov-file#plugin-list)
 
 ## 🧞 Commands
 

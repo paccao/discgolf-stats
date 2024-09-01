@@ -43,14 +43,13 @@ declare module 'fastify' {
   }
 }
 
-export const authPlugin: FastifyPluginAsync = fp(async (server, options) => {
+/**
+ * Automatically set the signed in user based on the session cookie.
+ */
+export const sessionPlugin: FastifyPluginAsync = fp(async (server) => {
   server.addHook('onRequest', async (request, reply) => {
     const sessionId = lucia.readSessionCookie(request.headers.cookie ?? '')
-
-    if (!sessionId) {
-      // TODO: fix redirect in frontend
-      return reply.code(401)
-    }
+    if (!sessionId) return
 
     const { session, user } = await lucia.validateSession(sessionId)
     if (session) {
@@ -62,8 +61,20 @@ export const authPlugin: FastifyPluginAsync = fp(async (server, options) => {
           lucia.createSessionCookie(session.id).serialize(),
         )
       }
-    } else {
-      return reply.code(401)
     }
   })
 })
+
+/**
+ * Plugin to ensure the user is authenticated. All routes registered after this plugin will require authentication.
+ */
+export const authenticationRequiredPlugin: FastifyPluginAsync = fp(
+  async (server) => {
+    // TODO: Fix bug that freezes requests that have no session here
+    server.addHook('onRequest', async (request, reply) => {
+      if (!request.user) {
+        return reply.code(401)
+      }
+    })
+  },
+)

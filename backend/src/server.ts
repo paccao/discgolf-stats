@@ -8,17 +8,19 @@ import {
 } from 'fastify-type-provider-zod'
 
 import { ENV } from './utils/env'
-import { authPlugin } from './utils/auth'
+import { sessionPlugin, authenticationRequiredPlugin } from './utils/auth'
 import courseRoutes from './modules/course/routes'
 import { signInRoute, signOutRoute, signUpRoute } from './modules/auth/routes'
 
 const server = Fastify({
-  logger: { level: 'info' },
+  logger: { level: 'debug' },
 }).withTypeProvider<ZodTypeProvider>()
 
 function initServer() {
   server.setValidatorCompiler(validatorCompiler)
   server.setSerializerCompiler(serializerCompiler)
+
+  server.register(sessionPlugin)
 
   if (ENV.NODE_ENV === 'development') {
     server.register(fp(developmentContext))
@@ -43,7 +45,7 @@ async function publicContext(server: FastifyInstance) {
  * This context wraps all logic that requires authentication.
  */
 async function authenticatedContext(server: FastifyInstance) {
-  server.register(authPlugin)
+  server.register(authenticationRequiredPlugin)
 
   server.register(courseRoutes, { prefix: 'api/courses' })
   server.register(signOutRoute, { prefix: 'api/auth' })
