@@ -87,6 +87,7 @@ async function developmentContext(server: FastifyInstance) {
 
   server.register(fastifySwaggerUI, {
     routePrefix: `/${ENV.OPENAPI_PREFIX}`,
+    logLevel: 'silent',
   })
 }
 
