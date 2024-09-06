@@ -74,11 +74,19 @@ async function developmentContext(server: FastifyInstance) {
         version: '0.0.1',
       },
       tags: [
-        { name: 'course', description: 'Course-related endpoints' },
-        { name: 'player', description: 'Player-related endpoints' },
         {
-          name: 'authentication',
-          description: 'Authentication-related endpoints',
+          name: 'course',
+          description: 'Information about a specific disc golf course',
+        },
+        { name: 'player', description: 'Profile information about the player' },
+        {
+          name: 'score-card',
+          description:
+            'Combined results for multiple players who played a round together',
+        },
+        {
+          name: 'auth',
+          description: 'Authentication and user account',
         },
       ],
     },
