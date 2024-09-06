@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { SignInInput, SignUpInput } from './schema'
 import { signInUser, signOutUser, signUpUser } from './service'
-import { lucia } from '../../utils/auth'
+import { lucia } from '@/utils/auth'
 
 export async function signUpHandler(
   request: FastifyRequest<{ Body: SignUpInput }>,

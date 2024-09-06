@@ -3,7 +3,7 @@ import { PrismaAdapter } from '@lucia-auth/adapter-prisma'
 import { FastifyPluginAsync } from 'fastify'
 import fp from 'fastify-plugin'
 
-import { User } from '../../prisma/generated/zod'
+import { User } from '@/prisma/generated/zod'
 import prisma from './prisma'
 import { ENV } from './env'
 

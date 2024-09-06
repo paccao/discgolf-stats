@@ -1,7 +1,7 @@
 import { hash, verify } from '@node-rs/argon2'
 
-import prisma from '../../utils/prisma'
-import { lucia } from '../../utils/auth'
+import prisma from '@/utils/prisma'
+import { lucia } from '@/utils/auth'
 
 const hashConfig = {
   // OWASP recommendations https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
