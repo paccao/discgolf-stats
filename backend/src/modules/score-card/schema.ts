@@ -1,14 +1,10 @@
 import { z } from 'zod'
 
-import { ScoreCardCreateInputSchema } from '@/prisma/generated/zod'
 import { idParam } from '@/utils/schema'
 
-export const CreateScoreCardSchema = z.object({
-  id: idParam,
+export const CreateScoreCardInputSchema = z.object({
+  date: z.coerce.date(),
+  courseId: idParam,
 })
 
-export const GetCourseInputSchema = z.object({
-  id: idParam,
-})
-
-export type GetCourseInput = z.infer<typeof GetCourseInputSchema>
+export type CreateScoreCardInput = z.infer<typeof CreateScoreCardInputSchema>

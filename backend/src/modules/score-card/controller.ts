@@ -1,28 +1,13 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { findCourseById } from './service'
-import { GetCourseInput } from './schema'
+import { CreateScoreCardInput } from './schema'
+import { createScoreCard } from './service'
 
 export async function createScoreCardHandler(
   request: FastifyRequest<{
-    // Params:
+    Body: CreateScoreCardInput
   }>,
   reply: FastifyReply,
 ) {
-  //
-}
-
-export async function getCourseHandler(
-  request: FastifyRequest<{
-    Params: GetCourseInput
-  }>,
-  reply: FastifyReply,
-) {
-  const course = await findCourseById(request.params.id)
-
-  if (course) {
-    return course
-  }
-
-  reply.code(404)
+  return createScoreCard(request.body)
 }

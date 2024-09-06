@@ -11,6 +11,7 @@ import { ENV } from './utils/env'
 import { sessionPlugin, authenticationRequiredPlugin } from './utils/auth'
 import courseRoutes from './modules/course/routes'
 import { signInRoute, signOutRoute, signUpRoute } from './modules/auth/routes'
+import scoreCardRoutes from './modules/score-card/routes'
 
 const options: FastifyServerOptions = {
   logger: { level: 'info' },
@@ -54,6 +55,7 @@ async function authenticatedContext(server: FastifyInstance) {
   server.register(authenticationRequiredPlugin)
 
   server.register(courseRoutes, { prefix: 'api/courses' })
+  server.register(scoreCardRoutes, { prefix: 'api/score-card' })
   server.register(signOutRoute, { prefix: 'api/auth' })
 }
 

@@ -1,20 +1,17 @@
 import { FastifyInstance } from 'fastify'
-import { z } from 'zod'
 
 import { createScoreCardHandler } from './controller'
-import {
-  ScoreCardCreateInputSchema,
-  ScoreCardSchema,
-} from '@/prisma/generated/zod'
+import { ScoreCardSchema } from '@/prisma/generated/zod'
+import { CreateScoreCardInputSchema } from './schema'
 
 async function scoreCardRoutes(server: FastifyInstance) {
   server.post(
     '/',
     {
       schema: {
-        body: ScoreCardCreateInputSchema,
+        body: CreateScoreCardInputSchema,
         response: {
-          200: z.array(ScoreCardSchema),
+          200: ScoreCardSchema,
         },
       },
     },

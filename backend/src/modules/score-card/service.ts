@@ -1,11 +1,18 @@
 import prisma from '@/utils/prisma'
+import { CreateScoreCardInput } from './schema'
 
-export async function findCourses() {
-  return prisma.course.findMany()
-}
-
-export function findCourseById(id: number) {
-  return prisma.course.findFirst({
-    where: { id },
+export async function createScoreCard({
+  date,
+  courseId,
+}: CreateScoreCardInput) {
+  return prisma.scoreCard.create({
+    data: {
+      date,
+      course: {
+        connect: {
+          id: courseId,
+        },
+      },
+    },
   })
 }
