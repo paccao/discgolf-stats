@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "node --import=tsx --env-file=.env --watch src/app.ts",
     "lint": "prettier --check .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prisma": "prisma"
   },
   "prisma": {
     "seed": "node --import=tsx prisma/seed.ts"
