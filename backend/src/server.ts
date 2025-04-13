@@ -46,8 +46,8 @@ function initServer() {
  */
 async function publicContext(server: FastifyInstance) {
   server.get('/healthcheck', async () => ({ status: 'OK' }))
-  server.register(signUpRoute, { prefix: 'api/auth' })
-  server.register(signInRoute, { prefix: 'api/auth' })
+  server.register(signUpRoute, { prefix: 'v1/auth' })
+  server.register(signInRoute, { prefix: 'v1/auth' })
 }
 
 /**
@@ -56,9 +56,9 @@ async function publicContext(server: FastifyInstance) {
 async function authenticatedContext(server: FastifyInstance) {
   server.register(authenticationRequiredPlugin)
 
-  server.register(courseRoutes, { prefix: 'api/courses' })
-  server.register(scoreCardRoutes, { prefix: 'api/score-card' })
-  server.register(signOutRoute, { prefix: 'api/auth' })
+  server.register(courseRoutes, { prefix: 'v1/courses' })
+  server.register(scoreCardRoutes, { prefix: 'v1/score-card' })
+  server.register(signOutRoute, { prefix: 'v1/auth' })
 }
 
 /**
