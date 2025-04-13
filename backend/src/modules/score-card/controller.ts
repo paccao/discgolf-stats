@@ -9,5 +9,8 @@ export async function createScoreCardHandler(
   }>,
   reply: FastifyReply,
 ) {
-  return createScoreCard(request.body)
+  const scoreCard = createScoreCard(request.body)
+  if (scoreCard) return scoreCard
+
+  reply.code(500)
 }
