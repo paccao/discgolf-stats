@@ -8,7 +8,7 @@ export async function signUpHandler(
   request: FastifyRequest<{ Body: SignUpInput }>,
   reply: FastifyReply,
 ) {
-  if (request.user) return reply.code(400)
+  if (request.user) return reply.code(400).send()
 
   const { username, password } = request.body
   try {
