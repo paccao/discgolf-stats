@@ -52,9 +52,20 @@ export function errorHandler(
   else if (error instanceof Prisma.PrismaClientKnownRequestError) {
     request.log.error({
       code: error.code,
-      message: 'Prisma internal error code',
+      message: error.message,
     })
-    reply.status(500).send({
+    reply.code(500).send({
+      message: 'Internal Server Error',
+      details: ENV.NODE_ENV === 'development' ? error : undefined,
+    })
+  }
+  // https://www.prisma.io/docs/orm/reference/error-reference#error-codes
+  else if (error instanceof Prisma.PrismaClientUnknownRequestError) {
+    request.log.error({
+      cause: error.cause,
+      message: error.message,
+    })
+    reply.code(500).send({
       message: 'Internal Server Error',
       details: ENV.NODE_ENV === 'development' ? error : undefined,
     })
@@ -62,3 +73,5 @@ export function errorHandler(
     reply.code(500).send({ message: 'Internal Server Error' })
   }
 }
+
+// TODO: Standardize response schema. Create a base response Schema that has optional details,code,message etc.
