@@ -12,7 +12,7 @@ async function scoreCardRoutes(server: FastifyInstance) {
     {
       schema: {
         tags,
-        body: GetScoreCardInputSchema,
+        headers: GetScoreCardInputSchema,
         response: {
           200: ScoreCardSchema,
         },

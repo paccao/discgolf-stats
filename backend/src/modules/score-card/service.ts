@@ -2,14 +2,10 @@ import prisma from '@/utils/prisma'
 import { CreateScoreCardInput, GetScoreCardInput } from './schema'
 import { InternalServerError, NotFoundError } from '@/utils/errors'
 
-export async function getScoreCard({ scoreCardId }: GetScoreCardInput) {
-  try {
-    await prisma.scoreCard.findUniqueOrThrow({
-      where: { id: scoreCardId },
-    })
-  } catch (error) {
-    throw new NotFoundError('Scorecard not found')
-  }
+export async function getScoreCard({ id }: GetScoreCardInput) {
+  return prisma.scoreCard.findUniqueOrThrow({
+    where: { id },
+  })
 }
 
 export async function createScoreCard({
@@ -21,21 +17,17 @@ export async function createScoreCard({
       where: { id: courseId },
     })
   } catch (error) {
-    throw new NotFoundError('Course not found')
+    throw new NotFoundError(`Course not found: ${courseId}`)
   }
 
-  try {
-    return prisma.scoreCard.create({
-      data: {
-        date,
-        course: {
-          connect: {
-            id: courseId,
-          },
+  return prisma.scoreCard.create({
+    data: {
+      date,
+      course: {
+        connect: {
+          id: courseId,
         },
       },
-    })
-  } catch (error) {
-    throw new InternalServerError('Unexpected error while creating scorecard')
-  }
+    },
+  })
 }

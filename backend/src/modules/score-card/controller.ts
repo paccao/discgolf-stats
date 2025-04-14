@@ -2,17 +2,22 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { CreateScoreCardInput, GetScoreCardInput } from './schema'
 import { createScoreCard, getScoreCard } from './service'
+import { InternalServerError, NotFoundError } from '@/utils/errors'
 
 export async function getScoreCardHandler(
   request: FastifyRequest<{
-    Body: GetScoreCardInput
+    Headers: GetScoreCardInput
   }>,
   reply: FastifyReply,
 ) {
-  const scoreCard = getScoreCard(request.body)
-  if (scoreCard) return scoreCard
+  const id = request.headers.id
 
-  reply.code(500)
+  const scoreCard = getScoreCard({ id })
+  if (!scoreCard) {
+    throw new NotFoundError('Scorecard not found')
+  }
+
+  reply.send(scoreCard)
 }
 
 export async function createScoreCardHandler(
@@ -22,7 +27,9 @@ export async function createScoreCardHandler(
   reply: FastifyReply,
 ) {
   const scoreCard = createScoreCard(request.body)
-  if (scoreCard) return scoreCard
+  if (!scoreCard) {
+    throw new InternalServerError('Unexpected error when creating Scorecard')
+  }
 
-  reply.code(500)
+  reply.send(scoreCard)
 }
