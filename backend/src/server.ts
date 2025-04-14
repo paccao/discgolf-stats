@@ -14,6 +14,7 @@ import { signInRoute, signOutRoute, signUpRoute } from './modules/auth/routes'
 import scoreCardRoutes from './modules/score-card/routes'
 import { readFile } from 'fs/promises'
 import { resolve } from 'path'
+import { errorHandler } from './utils/errors'
 
 const options: FastifyServerOptions = {
   logger: { level: 'info' },
@@ -35,6 +36,7 @@ function initServer() {
     server.register(fp(developmentContext))
   }
 
+  server.setErrorHandler(errorHandler)
   server.register(publicContext)
   server.register(authenticatedContext)
 
