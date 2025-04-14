@@ -5,8 +5,8 @@ export const AuthResponseSchema = z.object({
   msg: z.string().default('Request successful.'),
 })
 
-const usernameRegex = /^[0-9A-Za-z\._]{6,20}$/
-const username = z.string().min(6).max(20).regex(usernameRegex)
+const usernameRegex = /^[0-9A-Za-z\._]{3,20}$/
+const username = z.string().min(3).max(20).regex(usernameRegex)
 const password = z.string().min(6).max(80)
 
 export const SignInInputSchema = z.object({
