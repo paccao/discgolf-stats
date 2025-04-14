@@ -1,7 +1,19 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { CreateScoreCardInput } from './schema'
-import { createScoreCard } from './service'
+import { CreateScoreCardInput, GetScoreCardInput } from './schema'
+import { createScoreCard, getScoreCard } from './service'
+
+export async function getScoreCardHandler(
+  request: FastifyRequest<{
+    Body: GetScoreCardInput
+  }>,
+  reply: FastifyReply,
+) {
+  const scoreCard = getScoreCard(request.body)
+  if (scoreCard) return scoreCard
+
+  reply.code(500)
+}
 
 export async function createScoreCardHandler(
   request: FastifyRequest<{

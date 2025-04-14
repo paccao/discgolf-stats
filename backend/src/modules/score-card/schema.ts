@@ -7,4 +7,9 @@ export const CreateScoreCardInputSchema = z.object({
   courseId: idParam,
 })
 
+export const GetScoreCardInputSchema = z.object({
+  scoreCardId: idParam,
+})
+
 export type CreateScoreCardInput = z.infer<typeof CreateScoreCardInputSchema>
+export type GetScoreCardInput = z.infer<typeof GetScoreCardInputSchema>
