@@ -35,7 +35,7 @@ export async function signInUser(username: string, password: string) {
     where: { username },
   })
   if (!existingUser) {
-    return { error: 'Invalid username or password', status: 422 }
+    return { error: 'Invalid username or password', status: 401 }
   }
 
   const isValidPassword = await verify(
@@ -44,7 +44,7 @@ export async function signInUser(username: string, password: string) {
     hashConfig,
   )
   if (!isValidPassword) {
-    return { error: 'Invalid username or password', status: 422 }
+    return { error: 'Invalid username or password', status: 401 }
   }
 
   // TODO: Check if a valid session exists before creating a new one
