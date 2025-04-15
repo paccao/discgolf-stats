@@ -419,7 +419,7 @@ export const ScoreCardWhereInputSchema: z.ZodType<Prisma.ScoreCardWhereInput> = 
   date: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   courseId: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
   playerResults: z.lazy(() => PlayerResultListRelationFilterSchema).optional(),
-  course: z.union([ z.lazy(() => CourseRelationFilterSchema),z.lazy(() => CourseWhereInputSchema) ]).optional(),
+  course: z.union([ z.lazy(() => CourseScalarRelationFilterSchema),z.lazy(() => CourseWhereInputSchema) ]).optional(),
 }).strict();
 
 export const ScoreCardOrderByWithRelationInputSchema: z.ZodType<Prisma.ScoreCardOrderByWithRelationInput> = z.object({
@@ -441,7 +441,7 @@ export const ScoreCardWhereUniqueInputSchema: z.ZodType<Prisma.ScoreCardWhereUni
   date: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   courseId: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
   playerResults: z.lazy(() => PlayerResultListRelationFilterSchema).optional(),
-  course: z.union([ z.lazy(() => CourseRelationFilterSchema),z.lazy(() => CourseWhereInputSchema) ]).optional(),
+  course: z.union([ z.lazy(() => CourseScalarRelationFilterSchema),z.lazy(() => CourseWhereInputSchema) ]).optional(),
 }).strict());
 
 export const ScoreCardOrderByWithAggregationInputSchema: z.ZodType<Prisma.ScoreCardOrderByWithAggregationInput> = z.object({
@@ -546,7 +546,7 @@ export const BasketWhereInputSchema: z.ZodType<Prisma.BasketWhereInput> = z.obje
   order: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
   courseId: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
   scores: z.lazy(() => ScoreListRelationFilterSchema).optional(),
-  course: z.union([ z.lazy(() => CourseRelationFilterSchema),z.lazy(() => CourseWhereInputSchema) ]).optional(),
+  course: z.union([ z.lazy(() => CourseScalarRelationFilterSchema),z.lazy(() => CourseWhereInputSchema) ]).optional(),
 }).strict();
 
 export const BasketOrderByWithRelationInputSchema: z.ZodType<Prisma.BasketOrderByWithRelationInput> = z.object({
@@ -572,7 +572,7 @@ export const BasketWhereUniqueInputSchema: z.ZodType<Prisma.BasketWhereUniqueInp
   order: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
   courseId: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
   scores: z.lazy(() => ScoreListRelationFilterSchema).optional(),
-  course: z.union([ z.lazy(() => CourseRelationFilterSchema),z.lazy(() => CourseWhereInputSchema) ]).optional(),
+  course: z.union([ z.lazy(() => CourseScalarRelationFilterSchema),z.lazy(() => CourseWhereInputSchema) ]).optional(),
 }).strict());
 
 export const BasketOrderByWithAggregationInputSchema: z.ZodType<Prisma.BasketOrderByWithAggregationInput> = z.object({
@@ -607,8 +607,8 @@ export const ScoreWhereInputSchema: z.ZodType<Prisma.ScoreWhereInput> = z.object
   count: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
   playerResultId: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
   basketId: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
-  playerResult: z.union([ z.lazy(() => PlayerResultRelationFilterSchema),z.lazy(() => PlayerResultWhereInputSchema) ]).optional(),
-  basket: z.union([ z.lazy(() => BasketRelationFilterSchema),z.lazy(() => BasketWhereInputSchema) ]).optional(),
+  playerResult: z.union([ z.lazy(() => PlayerResultScalarRelationFilterSchema),z.lazy(() => PlayerResultWhereInputSchema) ]).optional(),
+  basket: z.union([ z.lazy(() => BasketScalarRelationFilterSchema),z.lazy(() => BasketWhereInputSchema) ]).optional(),
 }).strict();
 
 export const ScoreOrderByWithRelationInputSchema: z.ZodType<Prisma.ScoreOrderByWithRelationInput> = z.object({
@@ -631,8 +631,8 @@ export const ScoreWhereUniqueInputSchema: z.ZodType<Prisma.ScoreWhereUniqueInput
   count: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
   playerResultId: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
   basketId: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
-  playerResult: z.union([ z.lazy(() => PlayerResultRelationFilterSchema),z.lazy(() => PlayerResultWhereInputSchema) ]).optional(),
-  basket: z.union([ z.lazy(() => BasketRelationFilterSchema),z.lazy(() => BasketWhereInputSchema) ]).optional(),
+  playerResult: z.union([ z.lazy(() => PlayerResultScalarRelationFilterSchema),z.lazy(() => PlayerResultWhereInputSchema) ]).optional(),
+  basket: z.union([ z.lazy(() => BasketScalarRelationFilterSchema),z.lazy(() => BasketWhereInputSchema) ]).optional(),
 }).strict());
 
 export const ScoreOrderByWithAggregationInputSchema: z.ZodType<Prisma.ScoreOrderByWithAggregationInput> = z.object({
@@ -665,8 +665,8 @@ export const PlayerResultWhereInputSchema: z.ZodType<Prisma.PlayerResultWhereInp
   scoreCardId: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
   playerId: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
   scores: z.lazy(() => ScoreListRelationFilterSchema).optional(),
-  scoreCard: z.union([ z.lazy(() => ScoreCardRelationFilterSchema),z.lazy(() => ScoreCardWhereInputSchema) ]).optional(),
-  player: z.union([ z.lazy(() => PlayerRelationFilterSchema),z.lazy(() => PlayerWhereInputSchema) ]).optional(),
+  scoreCard: z.union([ z.lazy(() => ScoreCardScalarRelationFilterSchema),z.lazy(() => ScoreCardWhereInputSchema) ]).optional(),
+  player: z.union([ z.lazy(() => PlayerScalarRelationFilterSchema),z.lazy(() => PlayerWhereInputSchema) ]).optional(),
 }).strict();
 
 export const PlayerResultOrderByWithRelationInputSchema: z.ZodType<Prisma.PlayerResultOrderByWithRelationInput> = z.object({
@@ -689,8 +689,8 @@ export const PlayerResultWhereUniqueInputSchema: z.ZodType<Prisma.PlayerResultWh
   scoreCardId: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
   playerId: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
   scores: z.lazy(() => ScoreListRelationFilterSchema).optional(),
-  scoreCard: z.union([ z.lazy(() => ScoreCardRelationFilterSchema),z.lazy(() => ScoreCardWhereInputSchema) ]).optional(),
-  player: z.union([ z.lazy(() => PlayerRelationFilterSchema),z.lazy(() => PlayerWhereInputSchema) ]).optional(),
+  scoreCard: z.union([ z.lazy(() => ScoreCardScalarRelationFilterSchema),z.lazy(() => ScoreCardWhereInputSchema) ]).optional(),
+  player: z.union([ z.lazy(() => PlayerScalarRelationFilterSchema),z.lazy(() => PlayerWhereInputSchema) ]).optional(),
 }).strict());
 
 export const PlayerResultOrderByWithAggregationInputSchema: z.ZodType<Prisma.PlayerResultOrderByWithAggregationInput> = z.object({
@@ -721,7 +721,7 @@ export const PlayerWhereInputSchema: z.ZodType<Prisma.PlayerWhereInput> = z.obje
   name: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   userId: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
   playerResults: z.lazy(() => PlayerResultListRelationFilterSchema).optional(),
-  user: z.union([ z.lazy(() => UserRelationFilterSchema),z.lazy(() => UserWhereInputSchema) ]).optional(),
+  user: z.union([ z.lazy(() => UserScalarRelationFilterSchema),z.lazy(() => UserWhereInputSchema) ]).optional(),
 }).strict();
 
 export const PlayerOrderByWithRelationInputSchema: z.ZodType<Prisma.PlayerOrderByWithRelationInput> = z.object({
@@ -752,7 +752,7 @@ export const PlayerWhereUniqueInputSchema: z.ZodType<Prisma.PlayerWhereUniqueInp
   NOT: z.union([ z.lazy(() => PlayerWhereInputSchema),z.lazy(() => PlayerWhereInputSchema).array() ]).optional(),
   name: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   playerResults: z.lazy(() => PlayerResultListRelationFilterSchema).optional(),
-  user: z.union([ z.lazy(() => UserRelationFilterSchema),z.lazy(() => UserWhereInputSchema) ]).optional(),
+  user: z.union([ z.lazy(() => UserScalarRelationFilterSchema),z.lazy(() => UserWhereInputSchema) ]).optional(),
 }).strict());
 
 export const PlayerOrderByWithAggregationInputSchema: z.ZodType<Prisma.PlayerOrderByWithAggregationInput> = z.object({
@@ -783,7 +783,7 @@ export const UserWhereInputSchema: z.ZodType<Prisma.UserWhereInput> = z.object({
   username: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   hashedPassword: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   playerId: z.union([ z.lazy(() => IntNullableFilterSchema),z.number() ]).optional().nullable(),
-  player: z.union([ z.lazy(() => PlayerNullableRelationFilterSchema),z.lazy(() => PlayerWhereInputSchema) ]).optional().nullable(),
+  player: z.union([ z.lazy(() => PlayerNullableScalarRelationFilterSchema),z.lazy(() => PlayerWhereInputSchema) ]).optional().nullable(),
   sessions: z.lazy(() => SessionListRelationFilterSchema).optional()
 }).strict();
 
@@ -832,7 +832,7 @@ export const UserWhereUniqueInputSchema: z.ZodType<Prisma.UserWhereUniqueInput> 
   OR: z.lazy(() => UserWhereInputSchema).array().optional(),
   NOT: z.union([ z.lazy(() => UserWhereInputSchema),z.lazy(() => UserWhereInputSchema).array() ]).optional(),
   hashedPassword: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
-  player: z.union([ z.lazy(() => PlayerNullableRelationFilterSchema),z.lazy(() => PlayerWhereInputSchema) ]).optional().nullable(),
+  player: z.union([ z.lazy(() => PlayerNullableScalarRelationFilterSchema),z.lazy(() => PlayerWhereInputSchema) ]).optional().nullable(),
   sessions: z.lazy(() => SessionListRelationFilterSchema).optional()
 }).strict());
 
@@ -865,7 +865,7 @@ export const SessionWhereInputSchema: z.ZodType<Prisma.SessionWhereInput> = z.ob
   id: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   userId: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
   expiresAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
-  user: z.union([ z.lazy(() => UserRelationFilterSchema),z.lazy(() => UserWhereInputSchema) ]).optional(),
+  user: z.union([ z.lazy(() => UserScalarRelationFilterSchema),z.lazy(() => UserWhereInputSchema) ]).optional(),
 }).strict();
 
 export const SessionOrderByWithRelationInputSchema: z.ZodType<Prisma.SessionOrderByWithRelationInput> = z.object({
@@ -885,7 +885,7 @@ export const SessionWhereUniqueInputSchema: z.ZodType<Prisma.SessionWhereUniqueI
   NOT: z.union([ z.lazy(() => SessionWhereInputSchema),z.lazy(() => SessionWhereInputSchema).array() ]).optional(),
   userId: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
   expiresAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
-  user: z.union([ z.lazy(() => UserRelationFilterSchema),z.lazy(() => UserWhereInputSchema) ]).optional(),
+  user: z.union([ z.lazy(() => UserScalarRelationFilterSchema),z.lazy(() => UserWhereInputSchema) ]).optional(),
 }).strict());
 
 export const SessionOrderByWithAggregationInputSchema: z.ZodType<Prisma.SessionOrderByWithAggregationInput> = z.object({
@@ -1317,7 +1317,7 @@ export const PlayerResultListRelationFilterSchema: z.ZodType<Prisma.PlayerResult
   none: z.lazy(() => PlayerResultWhereInputSchema).optional()
 }).strict();
 
-export const CourseRelationFilterSchema: z.ZodType<Prisma.CourseRelationFilter> = z.object({
+export const CourseScalarRelationFilterSchema: z.ZodType<Prisma.CourseScalarRelationFilter> = z.object({
   is: z.lazy(() => CourseWhereInputSchema).optional(),
   isNot: z.lazy(() => CourseWhereInputSchema).optional()
 }).strict();
@@ -1544,12 +1544,12 @@ export const FloatWithAggregatesFilterSchema: z.ZodType<Prisma.FloatWithAggregat
   _max: z.lazy(() => NestedFloatFilterSchema).optional()
 }).strict();
 
-export const PlayerResultRelationFilterSchema: z.ZodType<Prisma.PlayerResultRelationFilter> = z.object({
+export const PlayerResultScalarRelationFilterSchema: z.ZodType<Prisma.PlayerResultScalarRelationFilter> = z.object({
   is: z.lazy(() => PlayerResultWhereInputSchema).optional(),
   isNot: z.lazy(() => PlayerResultWhereInputSchema).optional()
 }).strict();
 
-export const BasketRelationFilterSchema: z.ZodType<Prisma.BasketRelationFilter> = z.object({
+export const BasketScalarRelationFilterSchema: z.ZodType<Prisma.BasketScalarRelationFilter> = z.object({
   is: z.lazy(() => BasketWhereInputSchema).optional(),
   isNot: z.lazy(() => BasketWhereInputSchema).optional()
 }).strict();
@@ -1589,12 +1589,12 @@ export const ScoreSumOrderByAggregateInputSchema: z.ZodType<Prisma.ScoreSumOrder
   basketId: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
-export const ScoreCardRelationFilterSchema: z.ZodType<Prisma.ScoreCardRelationFilter> = z.object({
+export const ScoreCardScalarRelationFilterSchema: z.ZodType<Prisma.ScoreCardScalarRelationFilter> = z.object({
   is: z.lazy(() => ScoreCardWhereInputSchema).optional(),
   isNot: z.lazy(() => ScoreCardWhereInputSchema).optional()
 }).strict();
 
-export const PlayerRelationFilterSchema: z.ZodType<Prisma.PlayerRelationFilter> = z.object({
+export const PlayerScalarRelationFilterSchema: z.ZodType<Prisma.PlayerScalarRelationFilter> = z.object({
   is: z.lazy(() => PlayerWhereInputSchema).optional(),
   isNot: z.lazy(() => PlayerWhereInputSchema).optional()
 }).strict();
@@ -1629,7 +1629,7 @@ export const PlayerResultSumOrderByAggregateInputSchema: z.ZodType<Prisma.Player
   playerId: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
-export const UserRelationFilterSchema: z.ZodType<Prisma.UserRelationFilter> = z.object({
+export const UserScalarRelationFilterSchema: z.ZodType<Prisma.UserScalarRelationFilter> = z.object({
   is: z.lazy(() => UserWhereInputSchema).optional(),
   isNot: z.lazy(() => UserWhereInputSchema).optional()
 }).strict();
@@ -1673,7 +1673,7 @@ export const IntNullableFilterSchema: z.ZodType<Prisma.IntNullableFilter> = z.ob
   not: z.union([ z.number(),z.lazy(() => NestedIntNullableFilterSchema) ]).optional().nullable(),
 }).strict();
 
-export const PlayerNullableRelationFilterSchema: z.ZodType<Prisma.PlayerNullableRelationFilter> = z.object({
+export const PlayerNullableScalarRelationFilterSchema: z.ZodType<Prisma.PlayerNullableScalarRelationFilter> = z.object({
   is: z.lazy(() => PlayerWhereInputSchema).optional().nullable(),
   isNot: z.lazy(() => PlayerWhereInputSchema).optional().nullable()
 }).strict();
@@ -3773,10 +3773,18 @@ export const ScoreCardUpdateArgsSchema: z.ZodType<Prisma.ScoreCardUpdateArgs> = 
 export const ScoreCardUpdateManyArgsSchema: z.ZodType<Prisma.ScoreCardUpdateManyArgs> = z.object({
   data: z.union([ ScoreCardUpdateManyMutationInputSchema,ScoreCardUncheckedUpdateManyInputSchema ]),
   where: ScoreCardWhereInputSchema.optional(),
+  limit: z.number().optional(),
+}).strict() ;
+
+export const ScoreCardUpdateManyAndReturnArgsSchema: z.ZodType<Prisma.ScoreCardUpdateManyAndReturnArgs> = z.object({
+  data: z.union([ ScoreCardUpdateManyMutationInputSchema,ScoreCardUncheckedUpdateManyInputSchema ]),
+  where: ScoreCardWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const ScoreCardDeleteManyArgsSchema: z.ZodType<Prisma.ScoreCardDeleteManyArgs> = z.object({
   where: ScoreCardWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const CourseCreateArgsSchema: z.ZodType<Prisma.CourseCreateArgs> = z.object({
@@ -3817,10 +3825,18 @@ export const CourseUpdateArgsSchema: z.ZodType<Prisma.CourseUpdateArgs> = z.obje
 export const CourseUpdateManyArgsSchema: z.ZodType<Prisma.CourseUpdateManyArgs> = z.object({
   data: z.union([ CourseUpdateManyMutationInputSchema,CourseUncheckedUpdateManyInputSchema ]),
   where: CourseWhereInputSchema.optional(),
+  limit: z.number().optional(),
+}).strict() ;
+
+export const CourseUpdateManyAndReturnArgsSchema: z.ZodType<Prisma.CourseUpdateManyAndReturnArgs> = z.object({
+  data: z.union([ CourseUpdateManyMutationInputSchema,CourseUncheckedUpdateManyInputSchema ]),
+  where: CourseWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const CourseDeleteManyArgsSchema: z.ZodType<Prisma.CourseDeleteManyArgs> = z.object({
   where: CourseWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const BasketCreateArgsSchema: z.ZodType<Prisma.BasketCreateArgs> = z.object({
@@ -3861,10 +3877,18 @@ export const BasketUpdateArgsSchema: z.ZodType<Prisma.BasketUpdateArgs> = z.obje
 export const BasketUpdateManyArgsSchema: z.ZodType<Prisma.BasketUpdateManyArgs> = z.object({
   data: z.union([ BasketUpdateManyMutationInputSchema,BasketUncheckedUpdateManyInputSchema ]),
   where: BasketWhereInputSchema.optional(),
+  limit: z.number().optional(),
+}).strict() ;
+
+export const BasketUpdateManyAndReturnArgsSchema: z.ZodType<Prisma.BasketUpdateManyAndReturnArgs> = z.object({
+  data: z.union([ BasketUpdateManyMutationInputSchema,BasketUncheckedUpdateManyInputSchema ]),
+  where: BasketWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const BasketDeleteManyArgsSchema: z.ZodType<Prisma.BasketDeleteManyArgs> = z.object({
   where: BasketWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const ScoreCreateArgsSchema: z.ZodType<Prisma.ScoreCreateArgs> = z.object({
@@ -3905,10 +3929,18 @@ export const ScoreUpdateArgsSchema: z.ZodType<Prisma.ScoreUpdateArgs> = z.object
 export const ScoreUpdateManyArgsSchema: z.ZodType<Prisma.ScoreUpdateManyArgs> = z.object({
   data: z.union([ ScoreUpdateManyMutationInputSchema,ScoreUncheckedUpdateManyInputSchema ]),
   where: ScoreWhereInputSchema.optional(),
+  limit: z.number().optional(),
+}).strict() ;
+
+export const ScoreUpdateManyAndReturnArgsSchema: z.ZodType<Prisma.ScoreUpdateManyAndReturnArgs> = z.object({
+  data: z.union([ ScoreUpdateManyMutationInputSchema,ScoreUncheckedUpdateManyInputSchema ]),
+  where: ScoreWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const ScoreDeleteManyArgsSchema: z.ZodType<Prisma.ScoreDeleteManyArgs> = z.object({
   where: ScoreWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const PlayerResultCreateArgsSchema: z.ZodType<Prisma.PlayerResultCreateArgs> = z.object({
@@ -3949,10 +3981,18 @@ export const PlayerResultUpdateArgsSchema: z.ZodType<Prisma.PlayerResultUpdateAr
 export const PlayerResultUpdateManyArgsSchema: z.ZodType<Prisma.PlayerResultUpdateManyArgs> = z.object({
   data: z.union([ PlayerResultUpdateManyMutationInputSchema,PlayerResultUncheckedUpdateManyInputSchema ]),
   where: PlayerResultWhereInputSchema.optional(),
+  limit: z.number().optional(),
+}).strict() ;
+
+export const PlayerResultUpdateManyAndReturnArgsSchema: z.ZodType<Prisma.PlayerResultUpdateManyAndReturnArgs> = z.object({
+  data: z.union([ PlayerResultUpdateManyMutationInputSchema,PlayerResultUncheckedUpdateManyInputSchema ]),
+  where: PlayerResultWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const PlayerResultDeleteManyArgsSchema: z.ZodType<Prisma.PlayerResultDeleteManyArgs> = z.object({
   where: PlayerResultWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const PlayerCreateArgsSchema: z.ZodType<Prisma.PlayerCreateArgs> = z.object({
@@ -3993,10 +4033,18 @@ export const PlayerUpdateArgsSchema: z.ZodType<Prisma.PlayerUpdateArgs> = z.obje
 export const PlayerUpdateManyArgsSchema: z.ZodType<Prisma.PlayerUpdateManyArgs> = z.object({
   data: z.union([ PlayerUpdateManyMutationInputSchema,PlayerUncheckedUpdateManyInputSchema ]),
   where: PlayerWhereInputSchema.optional(),
+  limit: z.number().optional(),
+}).strict() ;
+
+export const PlayerUpdateManyAndReturnArgsSchema: z.ZodType<Prisma.PlayerUpdateManyAndReturnArgs> = z.object({
+  data: z.union([ PlayerUpdateManyMutationInputSchema,PlayerUncheckedUpdateManyInputSchema ]),
+  where: PlayerWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const PlayerDeleteManyArgsSchema: z.ZodType<Prisma.PlayerDeleteManyArgs> = z.object({
   where: PlayerWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const UserCreateArgsSchema: z.ZodType<Prisma.UserCreateArgs> = z.object({
@@ -4037,10 +4085,18 @@ export const UserUpdateArgsSchema: z.ZodType<Prisma.UserUpdateArgs> = z.object({
 export const UserUpdateManyArgsSchema: z.ZodType<Prisma.UserUpdateManyArgs> = z.object({
   data: z.union([ UserUpdateManyMutationInputSchema,UserUncheckedUpdateManyInputSchema ]),
   where: UserWhereInputSchema.optional(),
+  limit: z.number().optional(),
+}).strict() ;
+
+export const UserUpdateManyAndReturnArgsSchema: z.ZodType<Prisma.UserUpdateManyAndReturnArgs> = z.object({
+  data: z.union([ UserUpdateManyMutationInputSchema,UserUncheckedUpdateManyInputSchema ]),
+  where: UserWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const UserDeleteManyArgsSchema: z.ZodType<Prisma.UserDeleteManyArgs> = z.object({
   where: UserWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const SessionCreateArgsSchema: z.ZodType<Prisma.SessionCreateArgs> = z.object({
@@ -4081,8 +4137,16 @@ export const SessionUpdateArgsSchema: z.ZodType<Prisma.SessionUpdateArgs> = z.ob
 export const SessionUpdateManyArgsSchema: z.ZodType<Prisma.SessionUpdateManyArgs> = z.object({
   data: z.union([ SessionUpdateManyMutationInputSchema,SessionUncheckedUpdateManyInputSchema ]),
   where: SessionWhereInputSchema.optional(),
+  limit: z.number().optional(),
+}).strict() ;
+
+export const SessionUpdateManyAndReturnArgsSchema: z.ZodType<Prisma.SessionUpdateManyAndReturnArgs> = z.object({
+  data: z.union([ SessionUpdateManyMutationInputSchema,SessionUncheckedUpdateManyInputSchema ]),
+  where: SessionWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
 
 export const SessionDeleteManyArgsSchema: z.ZodType<Prisma.SessionDeleteManyArgs> = z.object({
   where: SessionWhereInputSchema.optional(),
+  limit: z.number().optional(),
 }).strict() ;
