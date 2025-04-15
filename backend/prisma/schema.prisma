@@ -11,77 +11,90 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Combined results for multiple players who played a round together
 model ScoreCard {
-  id            Int            @id @default(autoincrement())
-  date          DateTime
-  courseResults CourseResult[]
-  courseId      Int
+  id       Int      @id @default(autoincrement())
+  date     DateTime
+  courseId Int
+
+  playerResults PlayerResult[]
   course        Course         @relation(fields: [courseId], references: [id])
 }
 
+/// Information about a specific disc golf course
 model Course {
-  id          Int         @id @default(autoincrement())
-  name        String      @unique
+  id          Int    @id @default(autoincrement())
+  name        String @unique
   description String
   location    String
   /// There are usually multiple layouts at a single course location
   layout      String
-  baskets     Basket[]
-  scoreCards  ScoreCard[]
+
+  baskets    Basket[]
+  scoreCards ScoreCard[]
 }
 
+/// Information about a specific basket
 model Basket {
-  id       Int     @id @default(autoincrement())
+  id       Int   @id @default(autoincrement())
   par      Int
   length   Float
   /// The basket order is unique per Course
   order    Int
-  scores   Score[]
   courseId Int
-  course   Course  @relation(fields: [courseId], references: [id])
+
+  scores Score[]
+  course Course  @relation(fields: [courseId], references: [id])
 }
 
+/// The player's score for a specific basket during a round
 model Score {
-  id             Int          @id @default(autoincrement())
+  id             Int @id @default(autoincrement())
   /// The number of throws
   count          Int
-  courseResultId Int
+  playerResultId Int
   basketId       Int
-  courseResult   CourseResult @relation(fields: [courseResultId], references: [id])
-  basket         Basket       @relation(fields: [basketId], references: [id])
+
+  playerResult PlayerResult @relation(fields: [playerResultId], references: [id])
+  basket       Basket       @relation(fields: [basketId], references: [id])
 }
 
-model CourseResult {
-  id          Int       @id @default(autoincrement())
+/// A player's results connected to a specific ScoreCard.
+model PlayerResult {
+  id          Int @id @default(autoincrement())
   scoreCardId Int
   playerId    Int
-  scores      Score[]
-  scoreCard   ScoreCard @relation(fields: [scoreCardId], references: [id])
-  player      Player    @relation(fields: [playerId], references: [id])
+
+  scores    Score[]
+  scoreCard ScoreCard @relation(fields: [scoreCardId], references: [id])
+  player    Player    @relation(fields: [playerId], references: [id])
 }
 
 /// Profile information about the player
 model Player {
-  id            Int            @id @default(autoincrement())
-  name          String
-  courseResults CourseResult[]
-  userId        Int            @unique
+  id     Int    @id @default(autoincrement())
+  name   String
+  userId Int    @unique
+
+  playerResults PlayerResult[]
   user          User           @relation(fields: [userId], references: [id])
 }
 
 /// Authentication related user data
 model User {
-  id             Int       @id @default(autoincrement())
-  username       String    @unique
+  id             Int    @id @default(autoincrement())
+  username       String @unique
   hashedPassword String
-  playerId       Int?      @unique
-  player         Player?
-  sessions       Session[]
+  playerId       Int?   @unique
+
+  player   Player?
+  sessions Session[]
 }
 
 model Session {
   id        String   @id
   userId    Int
   expiresAt DateTime
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

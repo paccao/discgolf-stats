@@ -3,9 +3,10 @@ import { PrismaAdapter } from '@lucia-auth/adapter-prisma'
 import { FastifyPluginAsync } from 'fastify'
 import fp from 'fastify-plugin'
 
-import { User } from '../../prisma/generated/zod'
+import { User } from '@/prisma/generated/zod'
 import prisma from './prisma'
 import { ENV } from './env'
+import { UnauthorizedError } from './errors'
 
 const adapter = new PrismaAdapter(prisma.session, prisma.user)
 
@@ -70,9 +71,9 @@ export const sessionPlugin: FastifyPluginAsync = fp(async (server) => {
  */
 export const authenticationRequiredPlugin: FastifyPluginAsync = fp(
   async (server) => {
-    server.addHook('onRequest', (request, reply, done) => {
+    server.addHook('onRequest', (request, _reply, done) => {
       if (!request.user) {
-        reply.code(401).send()
+        throw new UnauthorizedError('Unauthorized')
       }
 
       done()

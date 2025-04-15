@@ -2,53 +2,36 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { SignInInput, SignUpInput } from './schema'
 import { signInUser, signOutUser, signUpUser } from './service'
-import { lucia } from '../../utils/auth'
+import { lucia } from '@/utils/auth'
+import {
+  BadRequest,
+  InternalServerError,
+  UnauthorizedError,
+} from '@/utils/errors'
 
 export async function signUpHandler(
   request: FastifyRequest<{ Body: SignUpInput }>,
   reply: FastifyReply,
 ) {
-  if (request.user) return reply.code(400)
+  if (request.user) throw new BadRequest('You are already signed in')
 
   const { username, password } = request.body
-  try {
-    const { sessionCookie, error, status } = await signUpUser(
-      username,
-      password,
-    )
-    if (!sessionCookie) {
-      return reply.code(status).send(error)
-    }
+  const { sessionCookie } = await signUpUser(username, password)
 
-    reply.header('Set-Cookie', sessionCookie.serialize())
-  } catch (e: any) {
-    request.log.error(e, e?.message)
-    reply.code(500)
-  }
+  reply.header('Set-Cookie', sessionCookie.serialize())
 }
 
 export async function signInHandler(
   request: FastifyRequest<{ Body: SignInInput }>,
   reply: FastifyReply,
 ) {
-  if (request.user) return reply.code(400)
+  if (request.user) throw new BadRequest('You are already signed in')
 
   const { username, password } = request.body
 
-  try {
-    const { sessionCookie, error, status } = await signInUser(
-      username,
-      password,
-    )
-    if (!sessionCookie) {
-      return reply.code(status).send(error)
-    }
+  const { sessionCookie } = await signInUser(username, password)
 
-    reply.header('Set-Cookie', sessionCookie.serialize())
-  } catch (e: any) {
-    request.log.error(e, e?.message)
-    reply.code(500)
-  }
+  reply.header('Set-Cookie', sessionCookie.serialize())
 }
 
 export async function signOutHandler(
@@ -57,14 +40,13 @@ export async function signOutHandler(
 ) {
   const sessionId = lucia.readSessionCookie(request.headers.cookie ?? '')
   if (!sessionId) {
-    return reply.code(401)
+    throw new UnauthorizedError('Invalid session')
   }
 
-  try {
-    const sessionCookie = await signOutUser(sessionId)
-    reply.header('Set-Cookie', sessionCookie.serialize())
-  } catch (e: any) {
-    request.log.error(e, e?.message)
-    reply.code(500)
+  const sessionCookie = await signOutUser(sessionId)
+  if (!sessionCookie) {
+    throw new InternalServerError('Unexpected error')
   }
+
+  reply.header('Set-Cookie', sessionCookie.serialize())
 }

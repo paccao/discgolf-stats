@@ -1,7 +1,8 @@
 import { hash, verify } from '@node-rs/argon2'
 
-import prisma from '../../utils/prisma'
-import { lucia } from '../../utils/auth'
+import prisma from '@/utils/prisma'
+import { lucia } from '@/utils/auth'
+import { UnauthorizedError, UnprocessableContent } from '@/utils/errors'
 
 const hashConfig = {
   // OWASP recommendations https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
@@ -16,7 +17,7 @@ export async function signUpUser(username: string, password: string) {
     where: { username },
   })
   if (existingUser?.username == username) {
-    return { error: 'Username already taken', status: 422 }
+    throw new UnprocessableContent('Username already taken')
   }
 
   const hashedPassword = await hash(password, hashConfig)
@@ -35,7 +36,7 @@ export async function signInUser(username: string, password: string) {
     where: { username },
   })
   if (!existingUser) {
-    return { error: 'Invalid username or password', status: 422 }
+    throw new UnauthorizedError('Invalid username or password')
   }
 
   const isValidPassword = await verify(
@@ -44,7 +45,7 @@ export async function signInUser(username: string, password: string) {
     hashConfig,
   )
   if (!isValidPassword) {
-    return { error: 'Invalid username or password', status: 422 }
+    throw new UnauthorizedError('Invalid username or password')
   }
 
   // TODO: Check if a valid session exists before creating a new one

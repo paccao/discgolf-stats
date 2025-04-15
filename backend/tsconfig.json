@@ -11,6 +11,10 @@
     "alwaysStrict": true /* Ensure 'use strict' is always emitted. */,
     "noFallthroughCasesInSwitch": true /* Enable error reporting for fallthrough cases in switch statements. */,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
-    "declaration": true
+    "declaration": true,
+    "paths": {
+      "@/prisma/generated/zod": ["./prisma/generated/zod"],
+      "@/*": ["./src/*"]
+    }
   }
 }
