@@ -12,7 +12,7 @@ export async function getScoreCardHandler(
 ) {
   const id = request.headers.id
 
-  const scoreCard = getScoreCard({ id })
+  const scoreCard = await getScoreCard({ id })
   if (!scoreCard) {
     throw new NotFoundError('Scorecard not found')
   }
@@ -26,7 +26,7 @@ export async function createScoreCardHandler(
   }>,
   reply: FastifyReply,
 ) {
-  const scoreCard = createScoreCard(request.body)
+  const scoreCard = await createScoreCard(request.body)
   if (!scoreCard) {
     throw new InternalServerError('Unexpected error when creating Scorecard')
   }

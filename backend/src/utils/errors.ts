@@ -2,7 +2,7 @@ import { FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 import { ENV } from './env'
 import { Prisma } from '@prisma/client'
 
-class DiscGolfApplicationError extends Error {
+class AppError extends Error {
   code: number
   constructor(code: number = 500, message: string) {
     super(message)
@@ -10,25 +10,39 @@ class DiscGolfApplicationError extends Error {
   }
 }
 
-export class NotFoundError extends DiscGolfApplicationError {
-  constructor(message: string) {
-    super(404, message)
-  }
-}
-
-export class BadRequest extends DiscGolfApplicationError {
+export class BadRequest extends AppError {
   constructor(message: string) {
     super(400, message)
   }
 }
 
-export class InternalServerError extends DiscGolfApplicationError {
+export class UnauthorizedError extends AppError {
+  constructor(message: string) {
+    super(401, message)
+  }
+}
+
+export class NotFoundError extends AppError {
+  constructor(message: string) {
+    super(404, message)
+  }
+}
+
+export class UnprocessableContent extends AppError {
+  constructor(message: string) {
+    super(422, message)
+  }
+}
+
+export class InternalServerError extends AppError {
   constructor(message: string) {
     super(500, message)
   }
 }
 
-// sends detailed errors in development only
+/**
+ * Handle most common errors, and only send error details to the client in development mode.
+ */
 export function errorHandler(
   error: Error,
   request: FastifyRequest,
@@ -40,12 +54,12 @@ export function errorHandler(
   if ((error as FastifyError)?.validation) {
     const fastifyError = error as FastifyError
 
-    reply.status(400).send({
+    reply.code(400).send({
       message: fastifyError.message,
       details:
         ENV.NODE_ENV === 'development' ? fastifyError : fastifyError.validation,
     })
-  } else if (error instanceof DiscGolfApplicationError) {
+  } else if (error instanceof AppError) {
     reply.code(error.code).send({ message: error.message })
   }
   // https://www.prisma.io/docs/orm/reference/error-reference#error-codes
@@ -73,5 +87,3 @@ export function errorHandler(
     reply.code(500).send({ message: 'Internal Server Error' })
   }
 }
-
-// TODO: Standardize response schema. Create a base response Schema that has optional details,code,message etc.

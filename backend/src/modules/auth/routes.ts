@@ -1,11 +1,15 @@
 import { FastifyInstance } from 'fastify'
 import { signInHandler, signOutHandler, signUpHandler } from './controller'
-import { AuthResponseSchema } from './schema'
-import { SignInInputSchema, SignUpInputSchema } from './schema'
+import {
+  SignInInputSchema,
+  SignUpInputSchema,
+  AuthResponseSchema,
+} from './schema'
+import { getErrorSchemas } from '@/utils/schema'
 
 const tags = ['auth']
 
-export async function signUpRoute(server: FastifyInstance) {
+export async function publicAuthRoutes(server: FastifyInstance) {
   server.post(
     '/sign-up',
     {
@@ -14,14 +18,13 @@ export async function signUpRoute(server: FastifyInstance) {
         body: SignUpInputSchema,
         response: {
           200: AuthResponseSchema,
+          ...getErrorSchemas(400, 500),
         },
       },
     },
     signUpHandler,
   )
-}
 
-export async function signInRoute(server: FastifyInstance) {
   server.post(
     '/sign-in',
     {
@@ -29,8 +32,8 @@ export async function signInRoute(server: FastifyInstance) {
         tags,
         body: SignInInputSchema,
         response: {
-          // IDEA: Maybe send
           200: AuthResponseSchema,
+          ...getErrorSchemas(400, 401, 500),
         },
       },
     },
@@ -38,7 +41,7 @@ export async function signInRoute(server: FastifyInstance) {
   )
 }
 
-export async function signOutRoute(server: FastifyInstance) {
+export async function authRoutes(server: FastifyInstance) {
   server.post(
     '/sign-out',
     {
@@ -46,6 +49,7 @@ export async function signOutRoute(server: FastifyInstance) {
         tags,
         response: {
           200: AuthResponseSchema,
+          ...getErrorSchemas(401, 500),
         },
       },
     },

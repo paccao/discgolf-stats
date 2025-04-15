@@ -6,14 +6,14 @@ import {
   ZodTypeProvider,
   jsonSchemaTransform,
 } from 'fastify-type-provider-zod'
+import { readFile } from 'fs/promises'
+import { resolve } from 'path'
 
 import { ENV } from './utils/env'
 import { sessionPlugin, authenticationRequiredPlugin } from './utils/auth'
 import courseRoutes from './modules/course/routes'
-import { signInRoute, signOutRoute, signUpRoute } from './modules/auth/routes'
+import { publicAuthRoutes, authRoutes } from './modules/auth/routes'
 import scoreCardRoutes from './modules/score-card/routes'
-import { readFile } from 'fs/promises'
-import { resolve } from 'path'
 import { errorHandler } from './utils/errors'
 
 const options: FastifyServerOptions = {
@@ -48,8 +48,7 @@ function initServer() {
  */
 async function publicContext(server: FastifyInstance) {
   server.get('/healthcheck', async () => ({ status: 'OK' }))
-  server.register(signUpRoute, { prefix: 'v1/auth' })
-  server.register(signInRoute, { prefix: 'v1/auth' })
+  server.register(publicAuthRoutes, { prefix: 'v1/auth' })
 }
 
 /**
@@ -60,7 +59,7 @@ async function authenticatedContext(server: FastifyInstance) {
 
   server.register(courseRoutes, { prefix: 'v1/courses' })
   server.register(scoreCardRoutes, { prefix: 'v1/score-card' })
-  server.register(signOutRoute, { prefix: 'v1/auth' })
+  server.register(authRoutes, { prefix: 'v1/auth' })
 }
 
 /**

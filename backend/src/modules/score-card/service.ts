@@ -1,9 +1,9 @@
 import prisma from '@/utils/prisma'
 import { CreateScoreCardInput, GetScoreCardInput } from './schema'
-import { InternalServerError, NotFoundError } from '@/utils/errors'
+import { NotFoundError } from '@/utils/errors'
 
 export async function getScoreCard({ id }: GetScoreCardInput) {
-  return prisma.scoreCard.findUniqueOrThrow({
+  return prisma.scoreCard.findUnique({
     where: { id },
   })
 }
@@ -12,11 +12,8 @@ export async function createScoreCard({
   date,
   courseId,
 }: CreateScoreCardInput) {
-  try {
-    await prisma.course.findUniqueOrThrow({
-      where: { id: courseId },
-    })
-  } catch (error) {
+  const course = await prisma.course.findUnique({ where: { id: courseId } })
+  if (!course) {
     throw new NotFoundError(`Course not found: ${courseId}`)
   }
 
