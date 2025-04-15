@@ -29,6 +29,7 @@ const server = Fastify(options).withTypeProvider<ZodTypeProvider>()
 function initServer() {
   server.setValidatorCompiler(validatorCompiler)
   server.setSerializerCompiler(serializerCompiler)
+  server.setErrorHandler(errorHandler)
 
   server.register(sessionPlugin)
 
@@ -36,7 +37,6 @@ function initServer() {
     server.register(fp(developmentContext))
   }
 
-  server.setErrorHandler(errorHandler)
   server.register(publicContext)
   server.register(authenticatedContext)
 
