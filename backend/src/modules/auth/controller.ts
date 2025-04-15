@@ -3,7 +3,11 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { SignInInput, SignUpInput } from './schema'
 import { signInUser, signOutUser, signUpUser } from './service'
 import { lucia } from '@/utils/auth'
-import { BadRequest, InternalServerError } from '@/utils/errors'
+import {
+  BadRequest,
+  InternalServerError,
+  UnauthorizedError,
+} from '@/utils/errors'
 
 export async function signUpHandler(
   request: FastifyRequest<{ Body: SignUpInput }>,
@@ -36,12 +40,12 @@ export async function signOutHandler(
 ) {
   const sessionId = lucia.readSessionCookie(request.headers.cookie ?? '')
   if (!sessionId) {
-    return reply.code(401).send()
+    throw new UnauthorizedError('Invalid session')
   }
 
   const sessionCookie = await signOutUser(sessionId)
   if (!sessionCookie) {
-    throw new InternalServerError('Unexpected error while signing out')
+    throw new InternalServerError('Unexpected error')
   }
 
   reply.header('Set-Cookie', sessionCookie.serialize())
