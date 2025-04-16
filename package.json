@@ -1,0 +1,8 @@
+{
+  "name": "discgolf-stats",
+  "private": true,
+  "prettier": {
+    "singleQuote": true,
+    "semi": false
+  }
+}
