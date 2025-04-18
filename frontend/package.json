@@ -18,19 +18,23 @@
     "@sveltejs/kit": "^2.20.7",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
     "@tailwindcss/vite": "^4.1.4",
+    "bits-ui": "^1.3.19",
     "prettier": "^3.5.3",
     "prettier-plugin-svelte": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "svelte": "^5.28.1",
     "svelte-check": "^4.1.6",
     "tailwindcss": "^4.1.4",
     "typescript": "^5.8.3",
+    "unplugin-icons": "^22.1.0",
     "vite": "^6.3.2"
   },
   "prettier": {
     "semi": false,
     "singleQuote": true,
     "plugins": [
-      "prettier-plugin-svelte"
+      "prettier-plugin-svelte",
+      "prettier-plugin-tailwindcss"
     ],
     "overrides": [
       {
@@ -40,5 +44,12 @@
         }
       }
     ]
+  },
+  "dependencies": {
+    "@iconify-json/lucide": "^1.2.37",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.2.0",
+    "tailwind-variants": "^1.0.0",
+    "tw-animate-css": "^1.2.5"
   }
 }
