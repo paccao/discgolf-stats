@@ -1,8 +1,16 @@
 import { FastifyInstance } from 'fastify'
 
-import { createScoreCardHandler, getScoreCardHandler } from './controller'
+import {
+  createScoreCardHandler,
+  getMatchHistoryHandler,
+  getScoreCardHandler,
+} from './controller'
 import { ScoreCardSchema } from '@/prisma/generated/zod'
-import { CreateScoreCardInputSchema, IdHeaderInputSchema } from './schema'
+import {
+  CreateScoreCardInputSchema,
+  IdHeaderInputSchema,
+  MatchHistorySchemas,
+} from './schema'
 import { getErrorSchemas } from '@/utils/schema'
 
 const tags = ['score-card']
@@ -21,6 +29,20 @@ export default async function scoreCardRoutes(server: FastifyInstance) {
       },
     },
     getScoreCardHandler,
+  )
+  server.get(
+    '/matchhistory',
+    {
+      schema: {
+        tags,
+        headers: IdHeaderInputSchema,
+        response: {
+          200: MatchHistorySchemas,
+          ...getErrorSchemas(404, 500),
+        },
+      },
+    },
+    getMatchHistoryHandler,
   )
   server.post(
     '/',
