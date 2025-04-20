@@ -9,7 +9,7 @@ import { ScoreCardSchema } from '@/prisma/generated/zod'
 import {
   CreateScoreCardInputSchema,
   IdHeaderInputSchema,
-  MatchHistorySchemas,
+  MatchHistorySchema,
 } from './schema'
 import { getErrorSchemas } from '@/utils/schema'
 
@@ -37,7 +37,7 @@ export default async function scoreCardRoutes(server: FastifyInstance) {
         tags,
         headers: IdHeaderInputSchema,
         response: {
-          200: MatchHistorySchemas,
+          200: MatchHistorySchema,
           ...getErrorSchemas(404, 500),
         },
       },

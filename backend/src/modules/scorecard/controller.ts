@@ -1,6 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { CreateScoreCardInput, GetHeaderIDInput } from './schema'
+import {
+  CreateScoreCardInput,
+  GetHeaderIDInput,
+  MatchHistoryResponse,
+} from './schema'
 import { createScoreCard, getScoreCard } from './service'
 import { InternalServerError, NotFoundError } from '@/utils/errors'
 
@@ -18,6 +22,22 @@ export async function getScoreCardHandler(
   }
 
   reply.send(scoreCard)
+}
+
+export async function getMatchHistoryHandler(
+  request: FastifyRequest<{
+    Headers: GetHeaderIDInput
+  }>,
+  reply: FastifyReply,
+) {
+  const id = request.headers.id
+
+  // Get last 10 playerResults from a player (create endpoint) (pagination)
+  // Get ScoreCard connected to each playerResult and get the course name from the connected courseId with a join - return startDate, endDate and course name
+
+  const matchHistory: MatchHistoryResponse = []
+
+  reply.send(matchHistory)
 }
 
 export async function createScoreCardHandler(
