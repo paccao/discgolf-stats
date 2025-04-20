@@ -7,7 +7,7 @@
 
 <Card.Root class="mx-auto max-w-sm">
   <Card.Header>
-    <Card.Title class="text-2xl">Login</Card.Title>
+    <Card.Title class="text-2xl">Sign up</Card.Title>
   </Card.Header>
   <Card.Content>
     <div class="grid gap-4">
@@ -17,18 +17,20 @@
       </div>
       <div class="grid gap-2">
         <div class="flex items-center">
-          <Label for="password">Password</Label>
-          <!-- TODO: implement password reset -->
-          <!-- <a href="##" class="ml-auto inline-block text-sm underline">
-            Forgot your password?
-          </a> -->
+          <Label for="pwd">Password</Label>
         </div>
-        <Input id="password" type="password" required />
+        <Input id="pwd" type="password" required />
       </div>
-      <Button type="submit" class="w-full">Login</Button>
+      <div class="grid gap-2">
+        <div class="flex items-center">
+          <Label for="pwd-repeat">Repeat password</Label>
+        </div>
+        <Input id="pwd-repeat" type="password" required />
+      </div>
+      <Button type="submit" class="w-full">Sign up</Button>
     </div>
     <div class="mt-4 text-center text-sm">
-      <a href="/signup" class="px-2 underline">Sign up</a>
+      <a href="/login" class="px-2 underline">Log in</a>
     </div>
   </Card.Content>
 </Card.Root>
