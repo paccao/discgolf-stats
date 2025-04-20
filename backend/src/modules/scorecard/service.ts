@@ -1,8 +1,8 @@
 import prisma from '@/utils/prisma'
-import { CreateScoreCardInput, GetScoreCardInput } from './schema'
+import { CreateScoreCardInput, GetHeaderIDInput } from './schema'
 import { NotFoundError } from '@/utils/errors'
 
-export async function getScoreCard({ id }: GetScoreCardInput) {
+export async function getScoreCard({ id }: GetHeaderIDInput) {
   return prisma.scoreCard.findUnique({
     where: { id },
   })

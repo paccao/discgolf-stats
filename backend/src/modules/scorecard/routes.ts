@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify'
 
 import { createScoreCardHandler, getScoreCardHandler } from './controller'
 import { ScoreCardSchema } from '@/prisma/generated/zod'
-import { CreateScoreCardInputSchema, GetScoreCardInputSchema } from './schema'
+import { CreateScoreCardInputSchema, IdHeaderInputSchema } from './schema'
 import { getErrorSchemas } from '@/utils/schema'
 
 const tags = ['score-card']
@@ -13,7 +13,7 @@ export default async function scoreCardRoutes(server: FastifyInstance) {
     {
       schema: {
         tags,
-        headers: GetScoreCardInputSchema,
+        headers: IdHeaderInputSchema,
         response: {
           200: ScoreCardSchema,
           ...getErrorSchemas(404, 500),

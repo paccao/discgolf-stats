@@ -1,12 +1,12 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { CreateScoreCardInput, GetScoreCardInput } from './schema'
+import { CreateScoreCardInput, GetHeaderIDInput } from './schema'
 import { createScoreCard, getScoreCard } from './service'
 import { InternalServerError, NotFoundError } from '@/utils/errors'
 
 export async function getScoreCardHandler(
   request: FastifyRequest<{
-    Headers: GetScoreCardInput
+    Headers: GetHeaderIDInput
   }>,
   reply: FastifyReply,
 ) {
