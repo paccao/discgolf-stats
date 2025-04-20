@@ -13,9 +13,9 @@ datasource db {
 
 /// Combined results for multiple players who played a round together
 model ScoreCard {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   startDate DateTime
-  endDate   DateTime
+  endDate   DateTime?
   courseId  Int
 
   playerResults PlayerResult[]

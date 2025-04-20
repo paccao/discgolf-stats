@@ -9,7 +9,7 @@ export async function getScoreCard({ id }: GetHeaderIDInput) {
 }
 
 export async function createScoreCard({
-  date,
+  startDate,
   courseId,
 }: CreateScoreCardInput) {
   const course = await prisma.course.findUnique({ where: { id: courseId } })
@@ -19,7 +19,7 @@ export async function createScoreCard({
 
   return prisma.scoreCard.create({
     data: {
-      date,
+      startDate,
       course: {
         connect: {
           id: courseId,
