@@ -37,6 +37,10 @@ pnpm prisma studio                              # Browse your local prisma datab
 pnpm prisma db push                             # Push writes to your database (changes the structure) but not to the migration
 ```
 
+## Frontend design and notes
+
+![design](./design.svg)
+
 ## Data model
 
 ![schema](./Datamodel-discgolf-stats.excalidraw.svg)
