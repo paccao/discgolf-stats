@@ -12,7 +12,7 @@ import type { Prisma } from '@prisma/client';
 
 export const TransactionIsolationLevelSchema = z.enum(['Serializable']);
 
-export const ScoreCardScalarFieldEnumSchema = z.enum(['id','date','courseId']);
+export const ScoreCardScalarFieldEnumSchema = z.enum(['id','startDate','endDate','courseId']);
 
 export const CourseScalarFieldEnumSchema = z.enum(['id','name','description','location','layout']);
 
@@ -44,7 +44,8 @@ export const NullsOrderSchema = z.enum(['first','last']);
  */
 export const ScoreCardSchema = z.object({
   id: z.number().int(),
-  date: z.coerce.date(),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
   courseId: z.number().int(),
 })
 
@@ -195,7 +196,8 @@ export const ScoreCardCountOutputTypeSelectSchema: z.ZodType<Prisma.ScoreCardCou
 
 export const ScoreCardSelectSchema: z.ZodType<Prisma.ScoreCardSelect> = z.object({
   id: z.boolean().optional(),
-  date: z.boolean().optional(),
+  startDate: z.boolean().optional(),
+  endDate: z.boolean().optional(),
   courseId: z.boolean().optional(),
   playerResults: z.union([z.boolean(),z.lazy(() => PlayerResultFindManyArgsSchema)]).optional(),
   course: z.union([z.boolean(),z.lazy(() => CourseArgsSchema)]).optional(),
@@ -416,7 +418,8 @@ export const ScoreCardWhereInputSchema: z.ZodType<Prisma.ScoreCardWhereInput> = 
   OR: z.lazy(() => ScoreCardWhereInputSchema).array().optional(),
   NOT: z.union([ z.lazy(() => ScoreCardWhereInputSchema),z.lazy(() => ScoreCardWhereInputSchema).array() ]).optional(),
   id: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
-  date: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  startDate: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  endDate: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   courseId: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
   playerResults: z.lazy(() => PlayerResultListRelationFilterSchema).optional(),
   course: z.union([ z.lazy(() => CourseScalarRelationFilterSchema),z.lazy(() => CourseWhereInputSchema) ]).optional(),
@@ -424,7 +427,8 @@ export const ScoreCardWhereInputSchema: z.ZodType<Prisma.ScoreCardWhereInput> = 
 
 export const ScoreCardOrderByWithRelationInputSchema: z.ZodType<Prisma.ScoreCardOrderByWithRelationInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
-  date: z.lazy(() => SortOrderSchema).optional(),
+  startDate: z.lazy(() => SortOrderSchema).optional(),
+  endDate: z.lazy(() => SortOrderSchema).optional(),
   courseId: z.lazy(() => SortOrderSchema).optional(),
   playerResults: z.lazy(() => PlayerResultOrderByRelationAggregateInputSchema).optional(),
   course: z.lazy(() => CourseOrderByWithRelationInputSchema).optional()
@@ -438,7 +442,8 @@ export const ScoreCardWhereUniqueInputSchema: z.ZodType<Prisma.ScoreCardWhereUni
   AND: z.union([ z.lazy(() => ScoreCardWhereInputSchema),z.lazy(() => ScoreCardWhereInputSchema).array() ]).optional(),
   OR: z.lazy(() => ScoreCardWhereInputSchema).array().optional(),
   NOT: z.union([ z.lazy(() => ScoreCardWhereInputSchema),z.lazy(() => ScoreCardWhereInputSchema).array() ]).optional(),
-  date: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  startDate: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  endDate: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   courseId: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
   playerResults: z.lazy(() => PlayerResultListRelationFilterSchema).optional(),
   course: z.union([ z.lazy(() => CourseScalarRelationFilterSchema),z.lazy(() => CourseWhereInputSchema) ]).optional(),
@@ -446,7 +451,8 @@ export const ScoreCardWhereUniqueInputSchema: z.ZodType<Prisma.ScoreCardWhereUni
 
 export const ScoreCardOrderByWithAggregationInputSchema: z.ZodType<Prisma.ScoreCardOrderByWithAggregationInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
-  date: z.lazy(() => SortOrderSchema).optional(),
+  startDate: z.lazy(() => SortOrderSchema).optional(),
+  endDate: z.lazy(() => SortOrderSchema).optional(),
   courseId: z.lazy(() => SortOrderSchema).optional(),
   _count: z.lazy(() => ScoreCardCountOrderByAggregateInputSchema).optional(),
   _avg: z.lazy(() => ScoreCardAvgOrderByAggregateInputSchema).optional(),
@@ -460,7 +466,8 @@ export const ScoreCardScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Sco
   OR: z.lazy(() => ScoreCardScalarWhereWithAggregatesInputSchema).array().optional(),
   NOT: z.union([ z.lazy(() => ScoreCardScalarWhereWithAggregatesInputSchema),z.lazy(() => ScoreCardScalarWhereWithAggregatesInputSchema).array() ]).optional(),
   id: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
-  date: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
+  startDate: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
+  endDate: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
   courseId: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
 }).strict();
 
@@ -909,44 +916,51 @@ export const SessionScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Sessi
 }).strict();
 
 export const ScoreCardCreateInputSchema: z.ZodType<Prisma.ScoreCardCreateInput> = z.object({
-  date: z.coerce.date(),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
   playerResults: z.lazy(() => PlayerResultCreateNestedManyWithoutScoreCardInputSchema).optional(),
   course: z.lazy(() => CourseCreateNestedOneWithoutScoreCardsInputSchema)
 }).strict();
 
 export const ScoreCardUncheckedCreateInputSchema: z.ZodType<Prisma.ScoreCardUncheckedCreateInput> = z.object({
   id: z.number().int().optional(),
-  date: z.coerce.date(),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
   courseId: z.number().int(),
   playerResults: z.lazy(() => PlayerResultUncheckedCreateNestedManyWithoutScoreCardInputSchema).optional()
 }).strict();
 
 export const ScoreCardUpdateInputSchema: z.ZodType<Prisma.ScoreCardUpdateInput> = z.object({
-  date: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  endDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   playerResults: z.lazy(() => PlayerResultUpdateManyWithoutScoreCardNestedInputSchema).optional(),
   course: z.lazy(() => CourseUpdateOneRequiredWithoutScoreCardsNestedInputSchema).optional()
 }).strict();
 
 export const ScoreCardUncheckedUpdateInputSchema: z.ZodType<Prisma.ScoreCardUncheckedUpdateInput> = z.object({
   id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
-  date: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  endDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   courseId: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   playerResults: z.lazy(() => PlayerResultUncheckedUpdateManyWithoutScoreCardNestedInputSchema).optional()
 }).strict();
 
 export const ScoreCardCreateManyInputSchema: z.ZodType<Prisma.ScoreCardCreateManyInput> = z.object({
   id: z.number().int().optional(),
-  date: z.coerce.date(),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
   courseId: z.number().int()
 }).strict();
 
 export const ScoreCardUpdateManyMutationInputSchema: z.ZodType<Prisma.ScoreCardUpdateManyMutationInput> = z.object({
-  date: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  endDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
 
 export const ScoreCardUncheckedUpdateManyInputSchema: z.ZodType<Prisma.ScoreCardUncheckedUpdateManyInput> = z.object({
   id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
-  date: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  endDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   courseId: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
 
@@ -1328,7 +1342,8 @@ export const PlayerResultOrderByRelationAggregateInputSchema: z.ZodType<Prisma.P
 
 export const ScoreCardCountOrderByAggregateInputSchema: z.ZodType<Prisma.ScoreCardCountOrderByAggregateInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
-  date: z.lazy(() => SortOrderSchema).optional(),
+  startDate: z.lazy(() => SortOrderSchema).optional(),
+  endDate: z.lazy(() => SortOrderSchema).optional(),
   courseId: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
@@ -1339,13 +1354,15 @@ export const ScoreCardAvgOrderByAggregateInputSchema: z.ZodType<Prisma.ScoreCard
 
 export const ScoreCardMaxOrderByAggregateInputSchema: z.ZodType<Prisma.ScoreCardMaxOrderByAggregateInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
-  date: z.lazy(() => SortOrderSchema).optional(),
+  startDate: z.lazy(() => SortOrderSchema).optional(),
+  endDate: z.lazy(() => SortOrderSchema).optional(),
   courseId: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const ScoreCardMinOrderByAggregateInputSchema: z.ZodType<Prisma.ScoreCardMinOrderByAggregateInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
-  date: z.lazy(() => SortOrderSchema).optional(),
+  startDate: z.lazy(() => SortOrderSchema).optional(),
+  endDate: z.lazy(() => SortOrderSchema).optional(),
   courseId: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
@@ -2504,13 +2521,15 @@ export const BasketCreateManyCourseInputEnvelopeSchema: z.ZodType<Prisma.BasketC
 }).strict();
 
 export const ScoreCardCreateWithoutCourseInputSchema: z.ZodType<Prisma.ScoreCardCreateWithoutCourseInput> = z.object({
-  date: z.coerce.date(),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
   playerResults: z.lazy(() => PlayerResultCreateNestedManyWithoutScoreCardInputSchema).optional()
 }).strict();
 
 export const ScoreCardUncheckedCreateWithoutCourseInputSchema: z.ZodType<Prisma.ScoreCardUncheckedCreateWithoutCourseInput> = z.object({
   id: z.number().int().optional(),
-  date: z.coerce.date(),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
   playerResults: z.lazy(() => PlayerResultUncheckedCreateNestedManyWithoutScoreCardInputSchema).optional()
 }).strict();
 
@@ -2571,7 +2590,8 @@ export const ScoreCardScalarWhereInputSchema: z.ZodType<Prisma.ScoreCardScalarWh
   OR: z.lazy(() => ScoreCardScalarWhereInputSchema).array().optional(),
   NOT: z.union([ z.lazy(() => ScoreCardScalarWhereInputSchema),z.lazy(() => ScoreCardScalarWhereInputSchema).array() ]).optional(),
   id: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
-  date: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  startDate: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  endDate: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   courseId: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
 }).strict();
 
@@ -2776,13 +2796,15 @@ export const ScoreCreateManyPlayerResultInputEnvelopeSchema: z.ZodType<Prisma.Sc
 }).strict();
 
 export const ScoreCardCreateWithoutPlayerResultsInputSchema: z.ZodType<Prisma.ScoreCardCreateWithoutPlayerResultsInput> = z.object({
-  date: z.coerce.date(),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
   course: z.lazy(() => CourseCreateNestedOneWithoutScoreCardsInputSchema)
 }).strict();
 
 export const ScoreCardUncheckedCreateWithoutPlayerResultsInputSchema: z.ZodType<Prisma.ScoreCardUncheckedCreateWithoutPlayerResultsInput> = z.object({
   id: z.number().int().optional(),
-  date: z.coerce.date(),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
   courseId: z.number().int()
 }).strict();
 
@@ -2835,13 +2857,15 @@ export const ScoreCardUpdateToOneWithWhereWithoutPlayerResultsInputSchema: z.Zod
 }).strict();
 
 export const ScoreCardUpdateWithoutPlayerResultsInputSchema: z.ZodType<Prisma.ScoreCardUpdateWithoutPlayerResultsInput> = z.object({
-  date: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  endDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   course: z.lazy(() => CourseUpdateOneRequiredWithoutScoreCardsNestedInputSchema).optional()
 }).strict();
 
 export const ScoreCardUncheckedUpdateWithoutPlayerResultsInputSchema: z.ZodType<Prisma.ScoreCardUncheckedUpdateWithoutPlayerResultsInput> = z.object({
   id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
-  date: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  endDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   courseId: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
 
@@ -3107,7 +3131,8 @@ export const BasketCreateManyCourseInputSchema: z.ZodType<Prisma.BasketCreateMan
 
 export const ScoreCardCreateManyCourseInputSchema: z.ZodType<Prisma.ScoreCardCreateManyCourseInput> = z.object({
   id: z.number().int().optional(),
-  date: z.coerce.date()
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date()
 }).strict();
 
 export const BasketUpdateWithoutCourseInputSchema: z.ZodType<Prisma.BasketUpdateWithoutCourseInput> = z.object({
@@ -3133,19 +3158,22 @@ export const BasketUncheckedUpdateManyWithoutCourseInputSchema: z.ZodType<Prisma
 }).strict();
 
 export const ScoreCardUpdateWithoutCourseInputSchema: z.ZodType<Prisma.ScoreCardUpdateWithoutCourseInput> = z.object({
-  date: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  endDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   playerResults: z.lazy(() => PlayerResultUpdateManyWithoutScoreCardNestedInputSchema).optional()
 }).strict();
 
 export const ScoreCardUncheckedUpdateWithoutCourseInputSchema: z.ZodType<Prisma.ScoreCardUncheckedUpdateWithoutCourseInput> = z.object({
   id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
-  date: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  endDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   playerResults: z.lazy(() => PlayerResultUncheckedUpdateManyWithoutScoreCardNestedInputSchema).optional()
 }).strict();
 
 export const ScoreCardUncheckedUpdateManyWithoutCourseInputSchema: z.ZodType<Prisma.ScoreCardUncheckedUpdateManyWithoutCourseInput> = z.object({
   id: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
-  date: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  endDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
 
 export const ScoreCreateManyBasketInputSchema: z.ZodType<Prisma.ScoreCreateManyBasketInput> = z.object({
