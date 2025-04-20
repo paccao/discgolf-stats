@@ -13,7 +13,7 @@ import { ENV } from './utils/env'
 import { sessionPlugin, authenticationRequiredPlugin } from './utils/auth'
 import courseRoutes from './modules/course/routes'
 import { publicAuthRoutes, authRoutes } from './modules/auth/routes'
-import scoreCardRoutes from './modules/score-card/routes'
+import scoreCardRoutes from './modules/scorecard/routes'
 import { errorHandler } from './utils/errors'
 
 const options: FastifyServerOptions = {
@@ -58,7 +58,7 @@ async function authenticatedContext(server: FastifyInstance) {
   server.register(authenticationRequiredPlugin)
 
   server.register(courseRoutes, { prefix: 'v1/courses' })
-  server.register(scoreCardRoutes, { prefix: 'v1/score-card' })
+  server.register(scoreCardRoutes, { prefix: 'v1/scorecard' })
   server.register(authRoutes, { prefix: 'v1/auth' })
 }
 
