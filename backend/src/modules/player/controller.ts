@@ -13,6 +13,9 @@ export async function getPlayerMatchHistoryHandler(
   // the id from the params
   // request.user?.id
 
+  // Get last 10 playerResults from a player (create endpoint) (pagination)
+  // Get ScoreCard connected to each playerResult and get the course name from the connected courseId with a join - return startDate, endDate and course name
+
   const matchHistory = await prisma.playerResult.findMany({
     where: {
       AND: [
@@ -41,6 +44,8 @@ export async function getPlayerMatchHistoryHandler(
       },
     },
   })
+
+  request.log.debug(matchHistory)
 
   reply.send(matchHistory)
 }

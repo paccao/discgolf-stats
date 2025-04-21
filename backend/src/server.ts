@@ -15,6 +15,7 @@ import courseRoutes from './modules/course/routes'
 import { publicAuthRoutes, authRoutes } from './modules/auth/routes'
 import scoreCardRoutes from './modules/scorecard/routes'
 import { errorHandler } from './utils/errors'
+import playerRoutes from './modules/player/routes'
 
 const options: FastifyServerOptions = {
   logger: { level: 'info' },
@@ -60,6 +61,7 @@ async function authenticatedContext(server: FastifyInstance) {
   server.register(courseRoutes, { prefix: 'v1/courses' })
   server.register(scoreCardRoutes, { prefix: 'v1/scorecard' })
   server.register(authRoutes, { prefix: 'v1/auth' })
+  server.register(playerRoutes, { prefix: 'v1/player' })
 }
 
 /**
