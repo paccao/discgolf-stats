@@ -1,16 +1,19 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { GetPlayerMatchHistoryParams } from './schema'
-import { getMatchHistory } from './service'
+import { getMatchHistory, getPlayerId } from './service'
+import { UnauthorizedError } from '@/utils/errors'
 
 export async function getPlayerMatchHistoryHandler(
-  request: FastifyRequest<{ Params: GetPlayerMatchHistoryParams }>,
+  request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  // IDEA: Maybe get player Id via the user Id from the session, and then we could remove
-  // the id from the params
-  // request.user?.id
-  const matchHistory = await getMatchHistory(request.params.id)
+  if (!request.user?.id) {
+    throw new UnauthorizedError('User not authorized, sign in and try again')
+  }
+
+  const playerId = await getPlayerId(request.user.id)
+
+  const matchHistory = await getMatchHistory(playerId)
 
   return reply.send(matchHistory)
 }

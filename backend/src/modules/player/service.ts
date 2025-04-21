@@ -1,4 +1,18 @@
+import { InternalServerError } from '@/utils/errors'
 import prisma from '@/utils/prisma'
+
+export async function getPlayerId(id: number) {
+  const { playerId } = await prisma.user.findUniqueOrThrow({
+    where: { id },
+    select: { playerId: true },
+  })
+
+  if (!playerId) {
+    throw new InternalServerError()
+  }
+
+  return playerId
+}
 
 export async function getMatchHistory(playerId: number) {
   const results = await prisma.playerResult.findMany({
@@ -26,9 +40,5 @@ export async function getMatchHistory(playerId: number) {
     },
   })
 
-  return results.map((result) => ({
-    startDate: result.scoreCard.startDate,
-    endDate: result.scoreCard.endDate,
-    courseName: result.scoreCard.course.name,
-  }))
+  return results.map(({ scoreCard }) => scoreCard)
 }
