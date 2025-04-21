@@ -44,9 +44,6 @@ export async function signOutHandler(
   }
 
   const sessionCookie = await signOutUser(sessionId)
-  if (!sessionCookie) {
-    throw new InternalServerError('Unexpected error')
-  }
 
   reply.header('Set-Cookie', sessionCookie.serialize())
 }

@@ -3,11 +3,11 @@ import { z } from 'zod'
 import { idParam } from '@/utils/schema'
 
 export const CreateScoreCardInputSchema = z.object({
-  date: z.coerce.date(),
+  startDate: z.coerce.date(),
   courseId: idParam,
 })
 
-export const GetScoreCardInputSchema = z.object({ id: idParam })
+export const IdHeaderInputSchema = z.object({ id: idParam })
 
 export type CreateScoreCardInput = z.infer<typeof CreateScoreCardInputSchema>
-export type GetScoreCardInput = z.infer<typeof GetScoreCardInputSchema>
+export type GetHeaderIDInput = z.infer<typeof IdHeaderInputSchema>

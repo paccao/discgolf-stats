@@ -43,7 +43,7 @@ pnpm prisma db push                             # Push writes to your database (
 
 ## Data model
 
-![schema](./Datamodel-discgolf-stats.excalidraw.svg)
+[Data model schema](./backend/prisma/schema.prisma)
 
 ## Session and auth flow
 
