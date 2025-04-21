@@ -5,7 +5,6 @@ export const idParam = z.coerce.number().int().gte(1)
 
 export const ErrorResponseSchema = z.object({
   message: z.string().optional(),
-  details: z.string().optional(),
   code: z.string().optional(),
   cause: z.string().optional(),
 })

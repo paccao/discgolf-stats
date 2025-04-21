@@ -1,6 +1,7 @@
 import { FastifyError, FastifyReply, FastifyRequest } from 'fastify'
-import { ENV } from './env'
 import { Prisma } from '@prisma/client'
+
+import { ENV } from './env'
 
 class AppError extends Error {
   code: number
@@ -35,7 +36,9 @@ export class UnprocessableContent extends AppError {
 }
 
 export class InternalServerError extends AppError {
-  constructor(message: string) {
+  static defaultMessage = 'Internal Server Error'
+
+  constructor(message: string = InternalServerError.defaultMessage) {
     super(500, message)
   }
 }
@@ -50,17 +53,32 @@ export function errorHandler(
 ) {
   request.log.error(error)
 
+  const isDEV = ENV.NODE_ENV === 'development'
+
   // assume its a fastify error if the validation obj exist
   if ((error as FastifyError)?.validation) {
     const fastifyError = error as FastifyError
 
     reply.code(400).send({
       message: fastifyError.message,
-      details:
-        ENV.NODE_ENV === 'development' ? fastifyError : fastifyError.validation,
+      details: isDEV ? fastifyError : fastifyError.validation,
     })
   } else if (error instanceof AppError) {
-    reply.code(error.code).send({ message: error.message })
+    let message
+
+    if (isDEV) {
+      message = error.message
+    } else {
+      if (error.code === 500) {
+        message = InternalServerError.defaultMessage
+      } else {
+        message = error.message
+      }
+    }
+
+    reply.code(error.code).send({
+      message,
+    })
   }
   // https://www.prisma.io/docs/orm/reference/error-reference#error-codes
   else if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -69,21 +87,17 @@ export function errorHandler(
       message: error.message,
     })
     reply.code(500).send({
-      message: 'Internal Server Error',
-      details: ENV.NODE_ENV === 'development' ? error : undefined,
+      message: InternalServerError.defaultMessage,
     })
-  }
-  // https://www.prisma.io/docs/orm/reference/error-reference#error-codes
-  else if (error instanceof Prisma.PrismaClientUnknownRequestError) {
+  } else if (error instanceof Prisma.PrismaClientUnknownRequestError) {
     request.log.error({
       cause: error.cause,
       message: error.message,
     })
     reply.code(500).send({
-      message: 'Internal Server Error',
-      details: ENV.NODE_ENV === 'development' ? error : undefined,
+      message: InternalServerError.defaultMessage,
     })
   } else {
-    reply.code(500).send({ message: 'Internal Server Error' })
+    reply.code(500).send({ message: InternalServerError.defaultMessage })
   }
 }
