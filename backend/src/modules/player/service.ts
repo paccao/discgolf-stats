@@ -1,29 +1,34 @@
 import prisma from '@/utils/prisma'
 
 export async function getMatchHistory(playerId: number) {
-  await prisma.playerResult.findMany({
+  const results = await prisma.playerResult.findMany({
     where: {
       AND: [{ playerId }, { scoreCard: { endDate: { not: null } } }],
     },
     take: 10,
-    orderBy: { scoreCard: { startDate: 'desc' } },
+    orderBy: {
+      scoreCard: {
+        startDate: 'desc',
+      },
+    },
     select: {
-      id: true,
-      playerId: true,
-      scores: true,
       scoreCard: {
         select: {
-          id: true,
+          startDate: true,
+          endDate: true,
           course: {
             select: {
-              id: true,
               name: true,
             },
           },
-          startDate: true,
-          endDate: true,
         },
       },
     },
   })
+
+  return results.map((result) => ({
+    startDate: result.scoreCard.startDate,
+    endDate: result.scoreCard.endDate,
+    courseName: result.scoreCard.course.name,
+  }))
 }
